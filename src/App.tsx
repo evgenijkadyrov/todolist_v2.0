@@ -42,6 +42,7 @@ function changeFilter(filter:FilterType){
 
         </div>
     );
+
 }
 
 export default App;
