@@ -37,31 +37,36 @@ type ChangeTaskTitleAT = {
 export const tasksReducer = (state: TasksStateType, action: actionType): TasksStateType => {
     switch (action.type) {
         case "REMOVE-TASK": {
-            let tasks = state[action.todolistId]
+            const stateCopy={...state}
+            let tasks = stateCopy[action.todolistId]
             let filteredTasks = tasks.filter(el => el.id !== action.id)
-            state[action.todolistId] = filteredTasks
-            return {...state}
+            stateCopy[action.todolistId] = filteredTasks
+            return stateCopy
         }
         case "ADD-TASK": {
-            let newTask = {id: '4', title: action.title, isDone: false}
-            state[action.todolistId] = [newTask, ...state[action.todolistId]]
-            return {...state}
+            const stateCopy={...state}
+            let newTask = {id: v1(), title: action.title, isDone: false}
+           let tasks=stateCopy[action.todolistId]
+            stateCopy[action.todolistId] = [newTask, ...tasks]
+            return stateCopy
         }
         case "CHANGE-TASK-STATUS": {
-            let todolistTasks = state[action.todolistId]
+            const stateCopy={...state}
+            let todolistTasks = stateCopy[action.todolistId]
             let task = todolistTasks.find(el => el.id === action.id)
             if (task) {
                 task.isDone = action.isDone
             }
-            return {...state}
+            return stateCopy
         }
         case "CHANGE-TASK-TITLE": {
-            let todolistTasks = state[action.todolistId]
+            const stateCopy={...state}
+            let todolistTasks = stateCopy[action.todolistId]
             let task = todolistTasks.find(el => el.id === action.id)
             if (task) {
                 task.title = action.title
             }
-            return {...state}
+            return stateCopy
         }
         case "ADD-TODOLIST": {
             let copyState = {...state}
