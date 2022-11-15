@@ -1,10 +1,11 @@
-import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 
 type EditableSpanType = {
     title: string
     onChange: (newTitle: string) => void
 }
-const EditableSpan = (props: EditableSpanType) => {
+const EditableSpan = React.memo((props: EditableSpanType) => {
+    console.log('editableSpan called')
     const [editMode, setEditMode] = useState(false)
     const [title, setTitle] = useState('')
 
@@ -34,6 +35,6 @@ const EditableSpan = (props: EditableSpanType) => {
             <span onDoubleClick={activateEditMode}>{props.title}</span>
 
     );
-};
+});
 
 export default EditableSpan;

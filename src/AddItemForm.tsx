@@ -3,7 +3,8 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 type AddItemFormType={
     addItem:(title:string)=>void
 }
-const AddItemForm = (props:AddItemFormType) => {
+const AddItemForm = React.memo((props:AddItemFormType) => {
+    console.log("AddItemForm called")
     const [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
 
@@ -22,6 +23,7 @@ const AddItemForm = (props:AddItemFormType) => {
     }
 
     const onkeyPresshandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if(error!==null)
         setError(null)
         if (e.key === 'Enter') {
             addItem()
@@ -38,6 +40,6 @@ const AddItemForm = (props:AddItemFormType) => {
             <button onClick={addItem}>+</button>
             {error && <div className={'error-message'}>{error}</div>}
         </div>)
-};
+});
 
 export default AddItemForm;
