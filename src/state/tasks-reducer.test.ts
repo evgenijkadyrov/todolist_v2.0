@@ -1,4 +1,4 @@
-import {FilterType, TasksStateType, TodolistType} from "./App";
+import {FilterType, TasksStateType, TodolistType} from "../App";
 import {v1} from "uuid";
 import {
     addTodolistAC,

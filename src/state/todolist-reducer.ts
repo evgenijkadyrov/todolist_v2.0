@@ -1,5 +1,4 @@
-import React from "react";
-import {FilterType, TodolistType} from "./App";
+import {FilterType, TodolistType} from "../App";
 import {v1} from "uuid";
 
 type actionType =
@@ -27,16 +26,17 @@ type ChangeTodolistFilterActionType = {
     newFilter: FilterType
     id: string
 }
-export const todolistsReducer = (state: Array<TodolistType>, action: actionType): Array<TodolistType> => {
+const initialState: Array<TodolistType> = []
+export const todolistsReducer = (state: Array<TodolistType> = initialState, action: actionType): Array<TodolistType> => {
     switch (action.type) {
         case "REMOVE-TODOLIST": {
 
-          return state.filter(el => el.id !== action.id)
+            return state.filter(el => el.id !== action.id)
 
         }
         case "ADD-TODOLIST": {
             let newTodolist: TodolistType = {id: action.todolistId, title: action.title, filter: 'all'}
-            return [ newTodolist,...state]
+            return [newTodolist, ...state]
         }
         case "CHANGE-TODOLIST-TITLE": {
             let todolist = state.find(el => el.id === action.id)
@@ -54,7 +54,7 @@ export const todolistsReducer = (state: Array<TodolistType>, action: actionType)
         }
 
         default:
-            throw new Error('I dont understand')
+            return state
     }
 }
 export const removeTodolistAC = (todolistId: string): RemoveTodolistActionType => {
