@@ -1,26 +1,22 @@
 import React, {useReducer, useState} from 'react';
 import './App.css';
-import {TaskType, Todolist} from "./Todolist";
+import { Todolist} from "./Todolist";
 import {v1} from "uuid";
 import AddItemForm from "./AddItemForm";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
-    changeTodolistTitleAC,
+    changeTodolistTitleAC, FilterType,
     removeTodolistAC,
     todolistsReducer
 } from "./state/todolist-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
+import {TaskPriorities, TaskResponseType, TaskStatuses} from "./api/todolists-api";
 
-export type FilterType = 'all' | 'active' | 'completed'
-export type TodolistType = {
-    id: string
-    title: string
-    filter: FilterType
-}
+
 
 export type TasksStateType = {
-    [key: string]: Array<TaskType>
+    [key: string]: Array<TaskResponseType>
 }
 
 function AppWithReducer() {
@@ -28,22 +24,20 @@ function AppWithReducer() {
     let todolistId2 = v1()
 
     let [todolists, dispatchTodolist] = useReducer(todolistsReducer,[
-        {id: todolistId1, title: 'What to learn', filter: 'all'},
-        {id: todolistId2, title: 'What to buy', filter: 'all'}
+        {id: todolistId1, title: 'What to learn', filter: 'all',order:0,addedDate:''},
+        {id: todolistId2, title: 'What to buy', filter: 'all',order:0,addedDate:''}
     ])
 
     let [tasks, dispatchTasks] = useReducer(tasksReducer,{
         [todolistId1]: [
-            {id: v1(), title: 'Js', isDone: false},
-            {id: v1(), title: 'Css', isDone: false},
-            {id: v1(), title: 'React', isDone: true},
-            {id: v1(), title: 'webql', isDone: false},
-            {id: v1(), title: 'mongo', isDone: false},
+            {id: v1(), title: 'Js', status:TaskStatuses.New,todoListId:todolistId1,startDate:'', order:0, deadline:'', addedDate:'', priority:TaskPriorities.Low, description:''},
+            {id: v1(), title: 'Css', status:TaskStatuses.New,todoListId:todolistId1,startDate:'', order:0, deadline:'', addedDate:'', priority:TaskPriorities.Low, description:''},
+            {id: v1(), title: 'React', status:TaskStatuses.New,todoListId:todolistId1,startDate:'', order:0, deadline:'', addedDate:'', priority:TaskPriorities.Low, description:''},
+
         ],
         [todolistId2]: [
-            {id: v1(), title: 'milk', isDone: false},
-            {id: v1(), title: 'bread', isDone: false},
-            {id: v1(), title: 'water', isDone: true},
+            {id: v1(), title: 'milk', status:TaskStatuses.New,todoListId:todolistId2,startDate:'', order:0, deadline:'', addedDate:'', priority:TaskPriorities.Low, description:''},
+            {id: v1(), title: 'bread', status:TaskStatuses.New,todoListId:todolistId2,startDate:'', order:0, deadline:'', addedDate:'', priority:TaskPriorities.Low, description:''},
 
         ]
     })
@@ -53,8 +47,8 @@ function AppWithReducer() {
        dispatchTodolist(action)
     }
 
-    function changeTaskStatus(taskId: string, isDone: boolean, todolistId: string) {
-      const action=changeTaskStatusAC(todolistId,taskId,isDone)
+    function changeTaskStatus(taskId: string, status: TaskStatuses, todolistId: string) {
+      const action=changeTaskStatusAC(todolistId,taskId,status)
         dispatchTasks(action)
     }
 
@@ -100,10 +94,10 @@ const action=addTaskAC(todolistId,title)
                 let allTodolistTasks = tasks[todolist.id]
                 let tasksForTodolist = allTodolistTasks
                 if (todolist.filter === 'completed') {
-                    tasksForTodolist = allTodolistTasks.filter(el => el.isDone === true)
+                    tasksForTodolist = allTodolistTasks.filter(el => el.status === TaskStatuses.Completed)
                 }
                 if (todolist.filter === 'active') {
-                    tasksForTodolist = allTodolistTasks.filter(el => el.isDone === false)
+                    tasksForTodolist = allTodolistTasks.filter(el => el.status === TaskStatuses.New)
                 }
                 return <Todolist
                     key={todolist.id}

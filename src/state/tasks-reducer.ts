@@ -1,6 +1,7 @@
-import {TasksStateType} from "../App";
 import {v1} from "uuid";
 import {AddTodolistActionType, RemoveTodolistActionType} from "./todolist-reducer";
+import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
+import {TasksStateType} from "../App";
 
 type actionType =
     RemoveTaskActionType
@@ -25,7 +26,7 @@ type ChangeTaskStatusAT = {
     type: "CHANGE-TASK-STATUS"
     todolistId: string
     id: string
-    isDone: boolean
+    status: TaskStatuses
 }
 type ChangeTaskTitleAT = {
     type: "CHANGE-TASK-TITLE"
@@ -46,7 +47,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: actio
         }
         case "ADD-TASK": {
             const stateCopy = {...state}
-            let newTask = {id: v1(), title: action.title, isDone: false}
+            let newTask = {id: v1(), title: action.title, status:TaskStatuses.New,todoListId:action.todolistId,startDate:'', order:0, deadline:'', addedDate:'', priority:TaskPriorities.Low, description:''}
             let tasks = stateCopy[action.todolistId]
             stateCopy[action.todolistId] = [newTask, ...tasks]
             return stateCopy
@@ -56,7 +57,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: actio
             let todolistTasks = stateCopy[action.todolistId]
             stateCopy[action.todolistId] = todolistTasks.map(el => el.id === action.id ? {
                 ...el,
-                isDone: action.isDone
+                status: action.status
             } : el)
 
             return stateCopy
@@ -96,8 +97,8 @@ export const addTaskAC = (todolistId: string, title: string): AddTaskAT => {
     }
 
 }
-export const changeTaskStatusAC = (todolistId: string, id: string, isDone: boolean): ChangeTaskStatusAT => {
-    return {type: "CHANGE-TASK-STATUS", todolistId, id, isDone}
+export const changeTaskStatusAC = (todolistId: string, id: string, status: TaskStatuses): ChangeTaskStatusAT => {
+    return {type: "CHANGE-TASK-STATUS", todolistId, id, status}
 }
 
 export const changeTaskTitleAC = (todolistId: string, id: string, title: string): ChangeTaskTitleAT => {
