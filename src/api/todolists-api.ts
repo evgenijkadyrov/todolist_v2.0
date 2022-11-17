@@ -94,5 +94,6 @@ export const todolistsAPI = {
             deadline:null
         }
         return instance.put(`todo-lists/${todolistId}/tasks/${taskId}`,payload)
-    }
+    },
+
 }
