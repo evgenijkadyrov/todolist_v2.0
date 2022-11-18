@@ -35,12 +35,12 @@ export enum TaskPriorities{
     Later
 }
 export type TaskResponseType={
-    description:string
+    description:string|null
     title:string
     status:TaskStatuses
     priority:TaskPriorities
-    startDate:string
-    deadline:string
+    startDate:string|null
+    deadline:string|null
     id:string
     todoListId:string
     order:number
@@ -52,11 +52,11 @@ type GetTasksType={
     totalCount:number
     error:string
 }
-type UpdateTaskType={
+export type UpdateTaskType={
     title:string
     description:string|null
-    status:number
-    priority:number
+    status:TaskStatuses
+    priority:TaskPriorities
     startDate:string|null
     deadline:string|null
 }
@@ -84,15 +84,8 @@ export const todolistsAPI = {
     createTask(todolistId:string, title:string){
         return instance.post<ResponseType<{ item:TaskResponseType }>>(`todo-lists/${todolistId}/tasks`, {title})
     },
-    updateTask(todolistId:string, taskId:string,title:string){
-        const payload:UpdateTaskType={
-            title:title,
-            description:null,
-            status:0,
-            priority:1,
-            startDate:null,
-            deadline:null
-        }
+    updateTask(todolistId: string, taskId: string, payload:UpdateTaskType){
+
         return instance.put(`todo-lists/${todolistId}/tasks/${taskId}`,payload)
     },
 

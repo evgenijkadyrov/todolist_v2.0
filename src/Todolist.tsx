@@ -17,7 +17,7 @@ type PropsType = {
     changeFilter: (filter: FilterType, todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
     removeTask: (taskId: string, todolistId: string) => void
-    changeTaskStatus: (taskId: string, status: TaskStatuses, todolistId: string) => void
+    changeTaskStatus: (todolistId: string,taskId: string, status: TaskStatuses) => void
     changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
     filter: FilterType
     removeTodolist: (todolistId: string) => void
@@ -27,9 +27,11 @@ type PropsType = {
 export const Todolist = React.memo((props: PropsType) => {
     const useAppDispatch=()=>useDispatch<AppDispatch>()
     const dispatch=useAppDispatch()
+
   useEffect(()=>{
       dispatch(fetchTasksTC(props.id))
   },[])
+
     const onAllClickHandler = useCallback(() => {
         props.changeFilter('all', props.id)
     }, [props.changeFilter, props.id])

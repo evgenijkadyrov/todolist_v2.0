@@ -25,13 +25,7 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             return state.filter(el => el.id !== action.id)
         }
         case "ADD-TODOLIST": {
-            let newTodolist: TodolistDomainType = {
-                id: action.id,
-                title: action.title,
-                filter: 'all',
-                addedDate: '',
-                order: 0
-            }
+            let newTodolist: TodolistDomainType = {...action.todolist, filter:'all'           }
             return [newTodolist, ...state]
         }
         case "CHANGE-TODOLIST-TITLE": {
@@ -59,8 +53,8 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
 
 
 export const removeTodolistAC = (id: string) => ({type: "REMOVE-TODOLIST", id} as const)
-export const addTodolistAC = (title: string) => ({type: "ADD-TODOLIST", title, id: v1()} as const)
-export const changeTodolistTitleAC = (title: string, id: string) => ({
+export const addTodolistAC = (todolist: TodolistType) => ({type: "ADD-TODOLIST", todolist} as const)
+export const changeTodolistTitleAC = (id: string,title: string, ) => ({
     type: "CHANGE-TODOLIST-TITLE",
     title,
     id
@@ -78,6 +72,30 @@ export const fetchTodolistsTC = ():AppThunk =>{
         todolistsAPI.getTodolists()
             .then(res => {
                 dispatch(setTodolistsAC(res.data))
+            })
+    }
+}
+export const RemoveTodolist=(id:string):AppThunk=>{
+    return (dispatch)=>{
+        todolistsAPI.deleteTodolist(id)
+            .then(res=>{
+                dispatch(removeTodolistAC(id))
+            })
+    }
+}
+export const AddTodolistTC=(title:string):AppThunk=>{
+    return (dispatch)=>{
+        todolistsAPI.createTodolist(title)
+            .then(res=>{
+                dispatch(addTodolistAC(res.data.data.item))
+            })
+    }
+}
+export const ChangeTodolistTitleTC = (id:string,title:string):AppThunk=>{
+    return (dispatch)=>{
+        todolistsAPI.updateTodolistTitle(id,title)
+            .then(res=>{
+                dispatch(changeTodolistTitleAC(id,title))
             })
     }
 }
