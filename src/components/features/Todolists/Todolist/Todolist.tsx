@@ -1,14 +1,14 @@
 import React, {useCallback, useEffect} from "react";
 
-import './App.css';
-import AddItemForm from "./AddItemForm";
-import EditableSpan from "./EditableSpan";
-import {Task} from "./Task";
-import {TaskResponseType, TaskStatuses} from "./api/todolists-api";
-import {FilterType} from "./state/todolist-reducer";
+import '../../../App/App.css';
+import AddItemForm from "../../../../components/AddItemForm";
+import EditableSpan from "../../../../components/EditableSpan";
+import {Task} from "../../../../components/features/Todolists/Todolist/Task/Task";
+import {TaskResponseType, TaskStatuses} from "../../../../api/todolists-api";
+import {FilterType} from "../../../../state/todolist-reducer";
 import {useDispatch} from "react-redux";
-import {AppDispatch} from "./state/store";
-import {fetchTasksTC} from "./state/tasks-reducer";
+import {AppDispatch} from "../../../../state/store";
+import {fetchTasksTC} from "../../../../state/tasks-reducer";
 
 type PropsType = {
     title: string

@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useCallback} from "react";
-import EditableSpan from "./EditableSpan";
+import EditableSpan from "../../../../EditableSpan";
 
-import {TaskResponseType, TaskStatuses} from "./api/todolists-api";
+import {TaskResponseType, TaskStatuses} from "../../../../../api/todolists-api";
 
 type TaskPropsType = {
     removeTask: (taskId: string, todolistId: string) => void

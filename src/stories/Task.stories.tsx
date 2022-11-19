@@ -1,6 +1,6 @@
 import React from "react";
-import {Task} from "../Task";
-import AddItemForm from "../AddItemForm";
+import {Task} from "../components/features/Todolists/Todolist/Task/Task";
+import AddItemForm from "../components/AddItemForm";
 import {action} from "@storybook/addon-actions";
 import {ComponentMeta, ComponentStory} from "@storybook/react";
 import {TaskPriorities, TaskStatuses} from "../api/todolists-api";

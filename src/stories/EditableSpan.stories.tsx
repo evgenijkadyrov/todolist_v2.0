@@ -1,4 +1,4 @@
-import EditableSpan from "../EditableSpan";
+import EditableSpan from "../components/EditableSpan";
 import {action} from "@storybook/addon-actions";
 import {ComponentMeta, ComponentStory} from "@storybook/react";
 //***old version****
