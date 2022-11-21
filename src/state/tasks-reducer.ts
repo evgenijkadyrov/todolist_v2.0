@@ -2,7 +2,7 @@ import {AddTodolistAT, RemoveTodolistAT, SetTodolistsAT} from "./todolist-reduce
 import {TaskPriorities, TaskResponseType, TaskStatuses, todolistsAPI, UpdateTaskType} from "../api/todolists-api";
 import {TasksStateType} from "../components/App/App";
 import {AppThunk, RootState} from "./store";
-import {SetError, SetErrorType, SetStatus, SetStatusType} from "./app-reducer";
+import {SetAppError, SetErrorType, SetAppStatus, SetStatusType} from "./app-reducer";
 
 
 const initialState: TasksStateType = {}
@@ -61,41 +61,41 @@ export const setTasksAC = (tasks: Array<TaskResponseType>, todolistId: string) =
 export const fetchTasksTC = (todolistId: string): AppThunk => {
 
     return (dispatch) => {
-        dispatch(SetStatus('loading'))
+        dispatch(SetAppStatus('loading'))
         todolistsAPI.getTasks(todolistId)
             .then(res => {
                 dispatch(setTasksAC(res.data.items, todolistId))
-                dispatch(SetStatus('success'))
+                dispatch(SetAppStatus('success'))
             })
     }
 }
 
 export const RemoveTaskTC = (todolistId: string, taskId: string): AppThunk => {
     return (dispatch) => {
-        dispatch(SetStatus('loading'))
+        dispatch(SetAppStatus('loading'))
         todolistsAPI.deleteTask(todolistId, taskId)
             .then(res => {
                 dispatch(removeTaskAC(todolistId, taskId))
-                dispatch(SetStatus('success'))
+                dispatch(SetAppStatus('success'))
             })
     }
 }
 
 export const AddTaskTC = (todolistId: string, title: string): AppThunk => {
     return (dispatch) => {
-        dispatch(SetStatus('loading'))
+        dispatch(SetAppStatus('loading'))
         todolistsAPI.createTask(todolistId, title)
             .then(res => {
                     if (res.data.resultCode === 0) {
                         dispatch(addTaskAC(res.data.data.item))
-                        dispatch(SetStatus('loading'))
+                        dispatch(SetAppStatus('loading'))
                     }
                     if (res.data.messages[0]) {
-                        dispatch(SetError(res.data.messages[0]))
+                        dispatch(SetAppError(res.data.messages[0]))
                     } else {
-                        dispatch(SetError('Some mistake'))
+                        dispatch(SetAppError('Some mistake'))
                     }
-                dispatch(SetStatus('failed'))
+                dispatch(SetAppStatus('failed'))
                 }
             )
 

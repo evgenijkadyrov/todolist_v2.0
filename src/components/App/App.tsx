@@ -43,7 +43,7 @@ const status=useSelector<AppRootReducer, RequestStatusType>(state=>state.app.sta
                 </Toolbar>
             </AppBar>
             {status==='loading'&& <LinearProgress/>}
-           <TodolistsList/>
+           <TodolistsList demo={false}/>
 
         </div>
     );

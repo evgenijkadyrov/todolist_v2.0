@@ -15,13 +15,14 @@ import {AddTaskTC, RemoveTaskTC, UpdateTaskTC} from "../../../state/tasks-reduce
 import AddItemForm from "../../AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {TasksStateType} from "../../App/App";
-import LinearProgress from "@mui/material/LinearProgress";
 import {Container} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import ErrorSnackBar from "../../SnackBar";
 
-export const TodolistsList = () => {
+type TodolistsListPropsType = {
+    demo?: boolean
+}
+export const TodolistsList = (props: TodolistsListPropsType) => {
     const todolists = useSelector<AppRootReducer, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootReducer, TasksStateType>(state => state.tasks)
 
@@ -29,7 +30,8 @@ export const TodolistsList = () => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(fetchTodolistsTC())
+        if (!props.demo)
+            dispatch(fetchTodolistsTC())
 
     }, [])
 
@@ -84,14 +86,13 @@ export const TodolistsList = () => {
                             <Paper style={{padding: '10px'}}>
                                 <Todolist
                                     key={todolist.id}
-                                    id={todolist.id}
-                                    title={todolist.title}
+                                    demo={props.demo}
+                                    todolist={todolist}
                                     tasks={tasksForTodolist}
                                     removeTask={removeTask}
                                     changeFilter={changeFilter}
                                     addTask={addTask}
                                     changeTaskStatus={changeTaskStatus}
-                                    filter={todolist.filter}
                                     removeTodolist={removeTodolist}
                                     changeTaskTitle={changeTaskTitle}
                                     changeTodolistTitle={changeTodolistTitle}

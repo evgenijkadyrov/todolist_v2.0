@@ -10,8 +10,8 @@ beforeEach(()=>{
      todolistId2 = v1()
 
      startState = [
-        {id: todolistId1, title: 'how', filter: 'all', order:0, addedDate:''},
-        {id: todolistId2, title: 'ny', filter: 'all', order:0, addedDate:''},
+        {id: todolistId1, title: 'how', filter: 'all', order:0, addedDate:'', entityStatus:'idle'},
+        {id: todolistId2, title: 'ny', filter: 'all', order:0, addedDate:'', entityStatus:'idle'},
     ]
 })
 // test('correct todolist should be removed', () => {

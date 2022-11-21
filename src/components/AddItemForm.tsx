@@ -6,6 +6,7 @@ import AddBox from "@mui/material/IconButton";
 
 type AddItemFormType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 const AddItemForm = React.memo((props: AddItemFormType) => {
     console.log("AddItemForm called")
@@ -17,7 +18,7 @@ const AddItemForm = React.memo((props: AddItemFormType) => {
 
     }
 
-    function addItem() {
+    function addItemHandler() {
         if (title.trim() !== '') {
             props.addItem(title.trim())
             setTitle('')
@@ -30,7 +31,7 @@ const AddItemForm = React.memo((props: AddItemFormType) => {
         if (error !== null)
             setError(null)
         if (e.key === 'Enter') {
-            addItem()
+            addItemHandler()
         }
     }
     return (
@@ -43,11 +44,12 @@ const AddItemForm = React.memo((props: AddItemFormType) => {
                 onChange={onChangeHandler}
                 onKeyPress={onkeyPresshandler}
                 label={'Title'}
-                helperText={error}/>
+                helperText={error}
+                disabled={props.disabled}/>
 
             <IconButton
-                color='primary' onClick={addItem}>
-                <AddBox/>
+                color='primary' onClick={addItemHandler} disabled={props.disabled}>
+                <AddBox>+</AddBox>
             </IconButton>
 
         </div>)

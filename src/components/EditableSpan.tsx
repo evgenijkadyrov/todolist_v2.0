@@ -3,6 +3,7 @@ import TextField from "@mui/material/TextField";
 type EditableSpanType = {
     title: string
     onChange: (newTitle: string) => void
+
 }
 const EditableSpan = React.memo((props: EditableSpanType) => {
     console.log('editableSpan called')

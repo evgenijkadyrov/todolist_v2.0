@@ -6,5 +6,5 @@ export default {
     component:AddItemForm
 }
 const callback=action('Button add was pressed')
-export const AddItemFormBAseExample = () => {
-    return <AddItemForm addItem={callback}/>}
+export const AddItemFormBAseExample = (props:any) => {
+    return <AddItemForm addItem={callback} disabled={true}/>}
