@@ -1,9 +1,13 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {Button} from "@mui/material";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import AddBox from "@mui/material/IconButton";
 
-type AddItemFormType={
-    addItem:(title:string)=>void
+type AddItemFormType = {
+    addItem: (title: string) => void
 }
-const AddItemForm = React.memo((props:AddItemFormType) => {
+const AddItemForm = React.memo((props: AddItemFormType) => {
     console.log("AddItemForm called")
     const [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
@@ -23,8 +27,8 @@ const AddItemForm = React.memo((props:AddItemFormType) => {
     }
 
     const onkeyPresshandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if(error!==null)
-        setError(null)
+        if (error !== null)
+            setError(null)
         if (e.key === 'Enter') {
             addItem()
         }
@@ -32,13 +36,20 @@ const AddItemForm = React.memo((props:AddItemFormType) => {
     return (
 
         <div>
+            <TextField
+                variant={'outlined'}
+                error={!!error}
+                value={title}
+                onChange={onChangeHandler}
+                onKeyPress={onkeyPresshandler}
+                label={'Title'}
+                helperText={error}/>
 
-            <input className={error ? 'error' : ''}
-                   value={title}
-                   onChange={onChangeHandler}
-                   onKeyPress={onkeyPresshandler}/>
-            <button onClick={addItem}>+</button>
-            {error && <div className={'error-message'}>{error}</div>}
+            <IconButton
+                color='primary' onClick={addItem}>
+                <AddBox/>
+            </IconButton>
+
         </div>)
 });
 

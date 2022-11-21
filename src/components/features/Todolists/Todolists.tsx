@@ -15,6 +15,10 @@ import {AddTaskTC, RemoveTaskTC, UpdateTaskTC} from "../../../state/tasks-reduce
 import AddItemForm from "../../AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {TasksStateType} from "../../App/App";
+import LinearProgress from "@mui/material/LinearProgress";
+import {Container} from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 
 export const TodolistsList = () => {
     const todolists = useSelector<AppRootReducer, Array<TodolistDomainType>>(state => state.todolists)
@@ -67,28 +71,41 @@ export const TodolistsList = () => {
 
     return (
         <div className="App">
-            <AddItemForm addItem={addTodolist}/>
-            {todolists.map((todolist) => {
-                let allTodolistTasks = tasks[todolist.id]
-                let tasksForTodolist = allTodolistTasks
+            <div><LinearProgress/>fg</div>
 
-                return <Todolist
-                    key={todolist.id}
-                    id={todolist.id}
-                    title={todolist.title}
-                    tasks={tasksForTodolist}
-                    removeTask={removeTask}
-                    changeFilter={changeFilter}
-                    addTask={addTask}
-                    changeTaskStatus={changeTaskStatus}
-                    filter={todolist.filter}
-                    removeTodolist={removeTodolist}
-                    changeTaskTitle={changeTaskTitle}
-                    changeTodolistTitle={changeTodolistTitle}
+            <Container fixed>
+                <Grid container style={{padding:'20px'}}><AddItemForm addItem={addTodolist}/></Grid>
 
-                />
-            })
-            }
+                <Grid container spacing={3}>
+                    {todolists.map((todolist) => {
+                        let allTodolistTasks = tasks[todolist.id]
+                        let tasksForTodolist = allTodolistTasks
+
+                        return <Grid item>
+                            <Paper style={{padding: '10px'}}>
+                                <Todolist
+                                    key={todolist.id}
+                                    id={todolist.id}
+                                    title={todolist.title}
+                                    tasks={tasksForTodolist}
+                                    removeTask={removeTask}
+                                    changeFilter={changeFilter}
+                                    addTask={addTask}
+                                    changeTaskStatus={changeTaskStatus}
+                                    filter={todolist.filter}
+                                    removeTodolist={removeTodolist}
+                                    changeTaskTitle={changeTaskTitle}
+                                    changeTodolistTitle={changeTodolistTitle}
+
+                                />
+                            </Paper>
+                        </Grid>
+                    })
+                    }
+                </Grid>
+
+            </Container>
+
 
         </div>
     );
