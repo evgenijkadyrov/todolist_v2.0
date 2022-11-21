@@ -19,6 +19,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import {Container} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import ErrorSnackBar from "../../SnackBar";
 
 export const TodolistsList = () => {
     const todolists = useSelector<AppRootReducer, Array<TodolistDomainType>>(state => state.todolists)
@@ -71,10 +72,8 @@ export const TodolistsList = () => {
 
     return (
         <div className="App">
-            <div><LinearProgress/>fg</div>
-
             <Container fixed>
-                <Grid container style={{padding:'20px'}}><AddItemForm addItem={addTodolist}/></Grid>
+                <Grid container style={{padding: '20px'}}><AddItemForm addItem={addTodolist}/></Grid>
 
                 <Grid container spacing={3}>
                     {todolists.map((todolist) => {

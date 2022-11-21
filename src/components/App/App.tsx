@@ -7,8 +7,13 @@ import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import MenuIcon from "@mui/material/Menu";
-import Menu from "@mui/material/Menu";
+
+import MenuIcon from "@mui/icons-material/Menu";
+import ErrorSnackBar from "../SnackBar";
+import {useSelector} from "react-redux";
+import {AppRootReducer} from "../../state/store";
+import {RequestStatusType} from "../../state/app-reducer";
+import LinearProgress from "@mui/material/LinearProgress";
 
 
 export type TasksStateType = {
@@ -16,19 +21,20 @@ export type TasksStateType = {
 }
 
 function App() {
-
+const status=useSelector<AppRootReducer, RequestStatusType>(state=>state.app.status)
        return (
         <div className="App">
+            <ErrorSnackBar/>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
                         size="large"
-                        edge="start"
+                        edge="end"
                         color="inherit"
                         aria-label="menu"
-                        sx={{ mr: 2 }}
+                        sx={{ mr: 3 }}
                     >
-                       <Menu open={true}/>
+                       <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Todolist
@@ -36,6 +42,7 @@ function App() {
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
+            {status==='loading'&& <LinearProgress/>}
            <TodolistsList/>
 
         </div>

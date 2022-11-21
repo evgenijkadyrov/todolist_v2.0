@@ -2,6 +2,7 @@ import {v1} from "uuid";
 import {todolistsAPI, TodolistType} from "../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppThunk} from "./store";
+import {SetStatus} from "./app-reducer";
 
 
 
@@ -41,26 +42,32 @@ export const setTodolistsAC = (todolists: Array<TodolistType>) => ({type: "SET-T
 //thunks
 export const fetchTodolistsTC = ():AppThunk =>{
     return (dispatch)=>{
+        dispatch(SetStatus('loading'))
         todolistsAPI.getTodolists()
             .then(res => {
                 dispatch(setTodolistsAC(res.data))
+                dispatch(SetStatus('success'))
             })
     }
 }
 
 export const RemoveTodolist=(id:string):AppThunk=>{
     return (dispatch)=>{
+        dispatch(SetStatus('loading'))
         todolistsAPI.deleteTodolist(id)
             .then(res=>{
                 dispatch(removeTodolistAC(id))
+                dispatch(SetStatus('success'))
             })
     }
 }
 export const AddTodolistTC=(title:string):AppThunk=>{
     return (dispatch)=>{
+        dispatch(SetStatus('loading'))
         todolistsAPI.createTodolist(title)
             .then(res=>{
                 dispatch(addTodolistAC(res.data.data.item))
+                dispatch(SetStatus('success'))
             })
     }
 }
@@ -89,4 +96,5 @@ export type actionTodolistsType =
 export type FilterType = 'all' | 'active' | 'completed'
 export type TodolistDomainType = TodolistType & {
     filter: FilterType
+
 }
