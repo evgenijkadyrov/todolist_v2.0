@@ -49,7 +49,7 @@ export type TodolistType = {
     order: number
     title: string
 }
-type ResponseType<D> = {
+export type ResponseType<D> = {
     data: D
     messages: Array<string>
     resultCode: number
