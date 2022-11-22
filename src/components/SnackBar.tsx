@@ -24,7 +24,7 @@ const dispatch=useDispatch()
             return;
         }
 
-    dispatch(SetAppError(null))
+    dispatch(SetAppError({error:null}))
     };
 
     return (

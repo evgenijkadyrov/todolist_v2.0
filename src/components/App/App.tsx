@@ -24,7 +24,7 @@ export type TasksStateType = {
 }
 
 function App() {
-    const status = useSelector<AppRootReducer, RequestStatusType>(state => state.app.status)
+    const status = useSelector<AppRootReducer, any>(state => state.app.status)
     const isInitialized = useSelector<AppRootReducer, boolean>(state => state.app.isInitialized)
     const isLoginOn = useSelector<AppRootReducer, boolean>(state => state.login.isLoginOn)
     const useAppDispatch = () => useDispatch<AppDispatch>()

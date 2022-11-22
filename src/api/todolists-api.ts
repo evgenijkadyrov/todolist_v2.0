@@ -99,7 +99,7 @@ export type TaskResponseType={
 type GetTasksType={
     items:Array<TaskResponseType>
     totalCount:number
-    error:string
+    error:string|null
 }
 export type UpdateTaskType={
     title:string
