@@ -10,7 +10,23 @@ const instance=axios.create({
     baseURL:'https://social-network.samuraijs.com/api/1.1/',
     ...settings
 })
-
+export type DataLoginPropsType={
+    email:string
+    password:string
+    rememberMe:boolean
+    captcha?:string
+}
+export const authAPI={
+    loginMe(data:DataLoginPropsType){
+        return instance.post<ResponseType<{}>>('auth/login', data )
+    },
+    me(){
+        return instance.get<ResponseType<{id:string,login:string, password:string}>>('auth/me')
+    },
+    logout(){
+        return instance.delete<ResponseType<{}>>('auth/login')
+    }
+}
 
 export const todolistsAPI = {
     getTodolists() {

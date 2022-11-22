@@ -18,6 +18,7 @@ import {TasksStateType} from "../../App/App";
 import {Container} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import {Navigate} from "react-router-dom";
 
 type TodolistsListPropsType = {
     demo?: boolean
@@ -25,12 +26,14 @@ type TodolistsListPropsType = {
 export const TodolistsList = (props: TodolistsListPropsType) => {
     const todolists = useSelector<AppRootReducer, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootReducer, TasksStateType>(state => state.tasks)
-
+    const isLoginOn=useSelector<AppRootReducer>(state=>state.login.isLoginOn)
     const useAppDispatch = () => useDispatch<AppDispatch>()
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        if (!props.demo)
+        if (props.demo||!isLoginOn){
+            return
+        }
             dispatch(fetchTodolistsTC())
 
     }, [])
@@ -71,7 +74,9 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
         dispatch(AddTodolistTC(title))
 
     }, []);
-
+    if(!isLoginOn){
+        return <Navigate to={'/login'}/>
+    }
     return (
         <div className="App">
             <Container fixed>

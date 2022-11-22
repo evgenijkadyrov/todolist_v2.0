@@ -69,7 +69,7 @@ export const fetchTasksTC = (todolistId: string): AppThunk => {
                 dispatch(SetAppStatus('success'))
 
             })
-            .catch(error=>{
+            .catch(error => {
                 handleServerNetworkAppError(error, dispatch)
             })
     }
@@ -83,7 +83,7 @@ export const RemoveTaskTC = (todolistId: string, taskId: string): AppThunk => {
                 dispatch(removeTaskAC(todolistId, taskId))
                 dispatch(SetAppStatus('success'))
             })
-            .catch(error=>{
+            .catch(error => {
                 handleServerNetworkAppError(error, dispatch)
             })
     }
