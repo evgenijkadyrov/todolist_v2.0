@@ -17,11 +17,11 @@ export const Task = React.memo((props: TaskPropsType) => {
         const onClickRemoveHandler = () => {
             props.removeTask(props.task.id, props.taskId)
         }
-        const onChangeStatusHandler =
+        const onChangeStatusHandler =useCallback(
             (e: ChangeEvent<HTMLInputElement>) => {
                 let newStatusValue = e.currentTarget.checked
                 props.changeTaskStatus(props.taskId, props.task.id, newStatusValue ? TaskStatuses.Completed : TaskStatuses.New,)
-            }
+            },[props.changeTaskStatus,props.taskId,props.task.id ])
         const onChangeTitleHandler = useCallback((newTitle: string) => {
             props.changeTaskTitle(props.task.id, newTitle, props.taskId)
         }, [props.changeTaskTitle, props.task.id, props.taskId])

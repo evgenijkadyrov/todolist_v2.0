@@ -18,15 +18,15 @@ beforeEach(()=>{
         ]
     }
 })
-test('correct task should be removed', () => {
-
-
-    const endState = tasksReducer(startState, removeTaskAC('todolistId2','2'))
-   expect(endState['todolistId1'].length).toBe(3)
-    expect(endState['todolistId2'].length).toBe(2)
-
-
-})
+// test('correct task should be removed', () => {
+//
+//
+//     const endState = tasksReducer(startState, removeTaskAC('todolistId2','2'))
+//    expect(endState['todolistId1'].length).toBe(3)
+//     expect(endState['todolistId2'].length).toBe(2)
+//
+//
+// })
 
 // test('correct task should be added', () => {
 //
@@ -67,15 +67,15 @@ test('correct task should be removed', () => {
 //     expect(keys.length).toBe(3)
 //     expect(endState[newKey]).toEqual([])
 // })
-test('property with todolistId should be deleted', () => {
-
-    const action = removeTodolistAC('todolistId2')
-
-    const endState = tasksReducer(startState, action)
-
-
-    const keys = Object.keys(endState)
-
-    expect(keys.length).toBe(1)
-    expect(endState['todolistId2']).not.toBeDefined()
-})
+// test('property with todolistId should be deleted', () => {
+//
+//     const action = removeTodolistAC('todolistId2')
+//
+//     const endState = tasksReducer(startState, action)
+//
+//
+//     const keys = Object.keys(endState)
+//
+//     expect(keys.length).toBe(1)
+//     expect(endState['todolistId2']).not.toBeDefined()
+// })
