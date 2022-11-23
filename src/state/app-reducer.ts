@@ -3,8 +3,12 @@ import {authAPI} from "../api/todolists-api";
 import {handleServerAppError, handleServerNetworkAppError} from "../utilites/error-utils";
 import {setIsLoginOn} from "./login-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-
-const initialState = {
+export type initialStateType={
+    status: RequestStatusType,
+    error: string|null,
+    isInitialized: boolean
+}
+const initialState:initialStateType = {
     status: 'idle',
     error: null,
     isInitialized: false

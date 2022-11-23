@@ -17,20 +17,26 @@ import LinearProgress from "@mui/material/LinearProgress";
 import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
 import {Login} from "../Login/Login";
 import CircularProgress from "@mui/material/CircularProgress";
-
+type PropsType={
+    demo?:boolean
+}
 
 export type TasksStateType = {
     [key: string]: Array<TaskResponseType>
 }
 
-function App() {
+function App({demo=false}:PropsType) {
     const status = useSelector<AppRootReducer, any>(state => state.app.status)
+
     const isInitialized = useSelector<AppRootReducer, boolean>(state => state.app.isInitialized)
     const isLoginOn = useSelector<AppRootReducer, boolean>(state => state.login.isLoginOn)
     const useAppDispatch = () => useDispatch<AppDispatch>()
     const dispatch = useAppDispatch()
     useEffect(()=>{
-        dispatch(inializedTC())
+        if(!demo){
+            dispatch(inializedTC())
+        }
+
     },[])
     const logoutHandler=useCallback(()=>{
         dispatch(logoutTC())
@@ -39,7 +45,7 @@ function App() {
         return <div style={{position:'fixed',width:'100%', top:'30%', textAlign:'center' }}><CircularProgress/></div>
     }
     return (
-        <BrowserRouter>
+
             <div className="App">
                 <ErrorSnackBar/>
                 <AppBar position="static">
@@ -69,7 +75,7 @@ function App() {
 
 
             </div>
-        </BrowserRouter>
+
     );
 
 }

@@ -28,9 +28,9 @@ const slice = createSlice({
                 index.filter = action.payload.newFilter
         },
         changeTodolistEntityStatusAC(state, action: PayloadAction<{ id: string, entityStatus: RequestStatusType }>) {
-            const index = state.findIndex(el => el.id === action.payload.id)
+            const index = state.find(el => el.id === action.payload.id)
             if (index)
-                state[index].entityStatus = action.payload.entityStatus
+                index.entityStatus = action.payload.entityStatus
         },
         setTodolistsAC(state, action: PayloadAction<{ todolists: Array<TodolistType> }>) {
             return action.payload.todolists.map(el => ({...el, filter: 'all', entityStatus: 'idle'}))

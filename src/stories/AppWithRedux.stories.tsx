@@ -1,13 +1,11 @@
 import App from "../components/App/App";
-import {Provider} from "react-redux";
-import {store} from "../state/store";
-import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
+import {BrowserRouterDecorator, ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
 
 export default{
     title:'AppWithRedux component',
     component:App,
-    decorators:[ReduxStoreProviderDecorator]
+    decorators:[ReduxStoreProviderDecorator,BrowserRouterDecorator]
 }
 export const AppWithReduxBaseExample = () => {
-    return <App/>
+    return <App demo={true}/>
 }

@@ -1,7 +1,7 @@
 import {removeTodolistAC} from "./todolist-reducer";
-import { removeTaskAC, tasksReducer, updateTaskAC,addTaskAC} from "./tasks-reducer";
+import { removeTaskAC, tasksReducer, updateTaskAC,addTaskAC,setTasksAC} from "./tasks-reducer";
 import { addTodolistAC} from "./todolist-reducer";
-import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
+import {TaskPriorities, TaskResponseType, TaskStatuses} from "../api/todolists-api";
 import {TasksStateType} from "../components/App/App";
 
 let startState:TasksStateType
@@ -19,19 +19,32 @@ beforeEach(()=>{
         ]
     }
 })
+
+
+
 test('correct task should be removed', () => {
-
-
     const endState = tasksReducer(startState, removeTaskAC({todolistId:'todolistId2',id:'2'}))
    expect(endState['todolistId1'].length).toBe(3)
     expect(endState['todolistId2'].length).toBe(2)
-
-
 })
 
 test('correct task should be added', () => {
 
-const endState=tasksReducer(startState, addTaskAC({task:{id:'1',title:'MILK',status:TaskStatuses.New, addedDate:'', deadline:'', description:'', order:0, priority:TaskPriorities.Low, startDate:'', todoListId:'todolistId1'}}))
+    const task = {
+        task: {
+            id: '1',
+            title: 'MILK',
+            status: TaskStatuses.New,
+            addedDate: '',
+            deadline: '',
+            description: '',
+            order: 0,
+            priority: TaskPriorities.Low,
+            startDate: '',
+            todoListId: 'todolistId1'
+        }
+    };
+    const endState=tasksReducer(startState, addTaskAC(task))
 
     expect(endState['todolistId2'].length).toBe(3)
     expect(endState['todolistId1'].length).toBe(4)
@@ -56,8 +69,8 @@ test('task title should be changed', () => {
 test('new array should be added when new todolist is added', () => {
 
 
-
-    const endState = tasksReducer(startState, addTodolistAC({todolist:{id: 'todolistId3', title: 'how', order:0, addedDate:''}}))
+    const todolist = {todolist:{id: 'todolistId3', title: 'how', order:0, addedDate:''}};
+    const endState = tasksReducer(startState, addTodolistAC(todolist))
 
 
     const keys = Object.keys(endState)
@@ -76,4 +89,16 @@ test('property with todolistId should be deleted', () => {
 
     expect(keys.length).toBe(1)
     expect(endState['todolistId2']).not.toBeDefined()
+})
+test ('tasks should be added to todolist',()=>{
+    const tasks=startState['todolistId1']
+
+    const endState=tasksReducer({
+        'todolistId1':[],
+        'todolistId2':[],
+
+    },setTasksAC({tasks, todolistId: 'todolistId1'}))
+
+    expect(endState['todolistId1'].length).toBe(3)
+    expect(endState['todolistId2'].length).toBe(0)
 })
