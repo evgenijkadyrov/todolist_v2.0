@@ -1,5 +1,5 @@
 import {removeTodolistAC} from "./todolist-reducer";
-import {tasksReducer, updateTaskAC, addTaskAC, fetchTasksTC, removeTaskTC} from "./tasks-reducer";
+import {tasksReducer, updateTaskAC, fetchTasksTC, removeTaskTC, addTaskTC} from "./tasks-reducer";
 import { addTodolistAC} from "./todolist-reducer";
 import {TaskPriorities, TaskResponseType, TaskStatuses} from "../api/todolists-api";
 import {TasksStateType} from "../components/App/App";
@@ -44,7 +44,7 @@ test('correct task should be added', () => {
             todoListId: 'todolistId1'
         }
     };
-    const endState=tasksReducer(startState, addTaskAC(task))
+    const endState=tasksReducer(startState, addTaskTC.fulfilled(task,'requiredId', {todolistId:'todolistId1',title:'MILK'}))
 
     expect(endState['todolistId2'].length).toBe(3)
     expect(endState['todolistId1'].length).toBe(4)
