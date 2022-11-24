@@ -1,5 +1,5 @@
 import {removeTodolistAC} from "./todolist-reducer";
-import { removeTaskAC, tasksReducer, updateTaskAC,addTaskAC,setTasksAC} from "./tasks-reducer";
+import {removeTaskAC, tasksReducer, updateTaskAC, addTaskAC, fetchTasksTC} from "./tasks-reducer";
 import { addTodolistAC} from "./todolist-reducer";
 import {TaskPriorities, TaskResponseType, TaskStatuses} from "../api/todolists-api";
 import {TasksStateType} from "../components/App/App";
@@ -97,7 +97,7 @@ test ('tasks should be added to todolist',()=>{
         'todolistId1':[],
         'todolistId2':[],
 
-    },setTasksAC({tasks, todolistId: 'todolistId1'}))
+    },fetchTasksTC.fulfilled({tasks, todolistId: 'todolistId1'},'requiredId','todolistId1' ))
 
     expect(endState['todolistId1'].length).toBe(3)
     expect(endState['todolistId2'].length).toBe(0)
