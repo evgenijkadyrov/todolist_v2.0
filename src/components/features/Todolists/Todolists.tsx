@@ -11,7 +11,7 @@ import {
 } from "../../../state/todolist-reducer";
 import React, {useCallback, useEffect} from "react";
 import {TaskStatuses} from "../../../api/todolists-api";
-import {AddTaskTC, RemoveTaskTC, UpdateTaskTC} from "../../../state/tasks-reducer";
+import {AddTaskTC, removeTaskTC, UpdateTaskTC} from "../../../state/tasks-reducer";
 import AddItemForm from "../../AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {TasksStateType} from "../../App/App";
@@ -53,7 +53,7 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
     }, []);
 
     const removeTask = useCallback((taskId: string, todolistId: string) => {
-        dispatch(RemoveTaskTC(todolistId, taskId))
+        dispatch(removeTaskTC({todolistId, taskId}))
 
     }, []);
 

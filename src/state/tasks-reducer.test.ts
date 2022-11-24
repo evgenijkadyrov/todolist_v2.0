@@ -1,5 +1,5 @@
 import {removeTodolistAC} from "./todolist-reducer";
-import {removeTaskAC, tasksReducer, updateTaskAC, addTaskAC, fetchTasksTC} from "./tasks-reducer";
+import {tasksReducer, updateTaskAC, addTaskAC, fetchTasksTC, removeTaskTC} from "./tasks-reducer";
 import { addTodolistAC} from "./todolist-reducer";
 import {TaskPriorities, TaskResponseType, TaskStatuses} from "../api/todolists-api";
 import {TasksStateType} from "../components/App/App";
@@ -23,7 +23,7 @@ beforeEach(()=>{
 
 
 test('correct task should be removed', () => {
-    const endState = tasksReducer(startState, removeTaskAC({todolistId:'todolistId2',id:'2'}))
+    const endState = tasksReducer(startState, removeTaskTC.fulfilled({todolistId:'todolistId2',taskId:'2'},'requiredId',{todolistId:'todolistId2',taskId:'2'}))
    expect(endState['todolistId1'].length).toBe(3)
     expect(endState['todolistId2'].length).toBe(2)
 })
