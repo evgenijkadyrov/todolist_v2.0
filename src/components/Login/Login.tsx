@@ -7,36 +7,52 @@ import FormGroup from '@mui/material/FormGroup';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {useFormik} from "formik";
+import {FormikHelpers , useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "../../state/login-reducer";
 import {AppDispatch, AppRootReducer} from "../../state/store";
 import {Navigate} from "react-router-dom";
 
+type FormValuesType = {
+    email: string
+    password: string
+    rememberMe: boolean
+}
 export const Login = () => {
 
-    const isLoginOn=useSelector<AppRootReducer>(state=>state.login.isLoginOn)
+    const isLoginOn = useSelector<AppRootReducer>(state => state.login.isLoginOn)
     const useAppDispatch = () => useDispatch<AppDispatch>()
     const dispatch = useAppDispatch()
 
     const formik = useFormik({
-        validate:(values)=>{
-            if(!values.email) {
-                return { email: 'Email required' }
+        validate: (values) => {
+
+            if (!values.email) {
+                return {email: 'Email required'}
             }
-            if(!values.password){
-                return{password:'Password required'}
-            }},
+            if (!values.password) {
+                return {password: 'Password required'}
+            }
+        },
         initialValues: {
             email: '',
             password: '',
             rememberMe: false
         },
-        onSubmit: values => {
-            dispatch(loginTC(values))
+        onSubmit: async (values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) => {
+            debugger
+            const action = await dispatch(loginTC(values));
+            if (loginTC.rejected.match(action)) {
+
+                if (action.payload?.fieldsErrors?.length) {
+                    const error = action.payload?.fieldsErrors[0]
+                    formikHelpers.setFieldError(error.field, error.error);
+                }
+            }
+
         }
     })
-    if(isLoginOn){
+    if (isLoginOn) {
         return <Navigate to={'/'}/>
     }
 
@@ -57,17 +73,17 @@ export const Login = () => {
                     <FormGroup>
                         <TextField label="Email" margin="normal"
                                    {...formik.getFieldProps('email')}
-                                   // name={'email'} onChange={formik.handleChange}
-                                   // value={formik.values.email}
+                            // name={'email'} onChange={formik.handleChange}
+                            // value={formik.values.email}
                         />
-                        {formik.errors.email?<div>{formik.errors.email}</div>:null}
+                        {formik.errors.email ? <div>{formik.errors.email}</div> : null}
                         <TextField type="password" label="Password"
                                    margin="normal"
                                    {...formik.getFieldProps('password')}
-                                   // name={'password'} onChange={formik.handleChange}
-                                   // value={formik.values.password}
+                            // name={'password'} onChange={formik.handleChange}
+                            // value={formik.values.password}
                         />
-                        {formik.errors.password?<div>{formik.errors.password}</div>:null}
+                        {formik.errors.password ? <div>{formik.errors.password}</div> : null}
                         <FormControlLabel label={'Remember me'} control={<Checkbox onChange={formik.handleChange}
                                                                                    checked={formik.values.rememberMe}
                                                                                    name={'rememberMe'}/>}/>
