@@ -1,18 +1,37 @@
-import {AppThunk} from "./store";
 import {authAPI} from "../api/todolists-api";
 import {handleServerAppError, handleServerNetworkAppError} from "../utilites/error-utils";
 import {setIsLoginOn} from "./login-reducer";
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-export type initialStateType={
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+
+export type initialStateType = {
     status: RequestStatusType,
-    error: string|null,
+    error: string | null,
     isInitialized: boolean
 }
-const initialState:initialStateType = {
+const initialState: initialStateType = {
     status: 'idle',
     error: null,
     isInitialized: false
 }
+
+export const inializedTC = createAsyncThunk('app/isInitialised', async (param, {dispatch}) => {
+    try {
+        const res = await authAPI.me()
+
+        if (res.data.resultCode === 0) {
+
+            dispatch(setIsLoginOn({value: true}))
+
+        } else {
+            handleServerAppError(res.data, dispatch)
+        }
+
+
+    } catch (error: any) {
+        handleServerNetworkAppError(error, dispatch)
+    }
+})
+
 const slice = createSlice({
     name: 'app',
     initialState: initialState,
@@ -20,67 +39,31 @@ const slice = createSlice({
         SetAppStatus(state, action: PayloadAction<{ status: RequestStatusType }>) {
             state.status = action.payload.status
         },
-        SetAppIsInitialized(state, action: PayloadAction<{ value: boolean }>) {
-            state.isInitialized = action.payload.value
-        },
-        SetAppError(state,action:PayloadAction<{error:string|null}>){
+
+        SetAppError(state, action: PayloadAction<{ error: string | null }>) {
 
             // @ts-ignore
-            state.error=action.payload.error
+            state.error = action.payload.error
         }
-    }
+    },
+    extraReducers: (builder => {
+        builder.addCase(inializedTC.fulfilled, (state, action) => {
+            state.isInitialized = true
+        })
+    })
 })
 export const appReducer = slice.reducer
 
-export const {SetAppError, SetAppStatus, SetAppIsInitialized} = slice.actions
+export const {SetAppError, SetAppStatus} = slice.actions
 
-//thunks
-export const inializedTC = (): AppThunk => {
-    return (dispatch) => {
-        authAPI.me()
-            .then(res => {
-                if (res.data.resultCode === 0) {
 
-                    dispatch(setIsLoginOn({value: true}))
-
-                } else {
-                    handleServerAppError(res.data, dispatch)
-                }
-                dispatch(SetAppIsInitialized({value: true}))
-            })
-            .catch(error => {
-                handleServerNetworkAppError(error, dispatch)
-            })
-
-    }
-}
-export const logoutTC = (): AppThunk => {
-    return (dispatch) => {
-        authAPI.me()
-            .then(res => {
-                if (res.data.resultCode === 0) {
-
-                    dispatch(setIsLoginOn({value: false}))
-
-                } else {
-                    handleServerAppError(res.data, dispatch)
-                }
-                dispatch(SetAppIsInitialized({value: true}))
-            })
-            .catch(error => {
-                handleServerNetworkAppError(error, dispatch)
-            })
-
-    }
-}
 //types
 export type RequestStatusType = 'idle' | 'loading' | 'success' | 'failed'
 
 export type SetErrorType = ReturnType<typeof SetAppError>
 export type SetStatusType = ReturnType<typeof SetAppStatus>;
-export type SetInitialized = ReturnType<typeof SetAppIsInitialized>
+
 
 export type AppActionsType =
-    |SetErrorType
+    | SetErrorType
     | SetStatusType
-    | SetInitialized

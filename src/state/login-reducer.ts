@@ -12,24 +12,37 @@ const initialState = {
 export const loginTC = createAsyncThunk<{ isLoginOn: boolean }, DataLoginPropsType, { rejectValue: { errors: Array<string>, fieldsErrors?: FieldsErrorType[] } }>('auth/login', async (param: DataLoginPropsType, thunkAPI) => {
     thunkAPI.dispatch(SetAppStatus({status: 'loading'}))
     try {
-        debugger
+
         const res = await authAPI.loginMe(param)
         if (res.data.resultCode === 0) {
-
             thunkAPI.dispatch(SetAppStatus({status: 'success'}))
             return {isLoginOn: true}
         } else {
-
             handleServerAppError(res.data, thunkAPI.dispatch)
-
             return thunkAPI.rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldsErrors})
-
         }
     } catch (error: any) {
-
         handleServerNetworkAppError(error, thunkAPI.dispatch)
         return thunkAPI.rejectWithValue({errors: [error.message], fieldsErrors: undefined})
     }
+})
+export const logoutTC = createAsyncThunk('auth/logout', async (param, {dispatch, rejectWithValue}) => {
+    dispatch(SetAppStatus({status: 'loading'}))
+    try {
+        const res = await authAPI.logout()
+        if (res.data.resultCode === 0) {
+
+            dispatch(SetAppStatus({status: 'success'}))
+        } else {
+            handleServerAppError(res.data, dispatch)
+            return rejectWithValue({})
+        }
+
+    } catch (error: any) {
+        handleServerNetworkAppError(error, dispatch)
+        return rejectWithValue({})
+    }
+
 })
 
 const slice = createSlice({
@@ -43,14 +56,16 @@ const slice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(loginTC.fulfilled, (state, action) => {
-            state.isLoginOn = action.payload.isLoginOn
+            state.isLoginOn = true
+        })
+        builder.addCase(logoutTC.fulfilled, (state, action) => {
+            state.isLoginOn = false
         })
     }
+
 })
 export const loginReducer = slice.reducer
 export const {setIsLoginOn} = slice.actions
-
-//thunks
 
 
 export type IsLoginOnType = ReturnType<typeof setIsLoginOn>

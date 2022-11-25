@@ -7,7 +7,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {FormikHelpers , useFormik} from "formik";
+import {FormikHelpers, useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "../../state/login-reducer";
 import {AppDispatch, AppRootReducer} from "../../state/store";
@@ -40,7 +40,7 @@ export const Login = () => {
             rememberMe: false
         },
         onSubmit: async (values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) => {
-            debugger
+
             const action = await dispatch(loginTC(values));
             if (loginTC.rejected.match(action)) {
 

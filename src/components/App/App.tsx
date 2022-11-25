@@ -12,11 +12,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ErrorSnackBar from "../SnackBar";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootReducer} from "../../state/store";
-import {inializedTC, logoutTC, RequestStatusType} from "../../state/app-reducer";
+import {inializedTC, RequestStatusType} from "../../state/app-reducer";
 import LinearProgress from "@mui/material/LinearProgress";
 import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
 import {Login} from "../Login/Login";
 import CircularProgress from "@mui/material/CircularProgress";
+import {logoutTC} from "../../state/login-reducer";
 type PropsType={
     demo?:boolean
 }
