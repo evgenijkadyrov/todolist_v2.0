@@ -7,8 +7,8 @@ import {
     changeTodolistTitleAC,
     changeTodolistFilterAC,
     changeTodolistEntityStatusAC,
-    setTodolistsAC,
-    FilterType
+
+    FilterType, fetchTodolistsTC
 } from "../state/todolist-reducer";
 
 let todolistId1:string
@@ -68,6 +68,6 @@ test ('entityStatus should be changed',()=>{
 test ('todolists should be adeed',()=>{
     const state:Array<TodolistDomainType>=[]
     const todolists= [{id: todolistId1, title: 'how', filter: 'all', order:0, addedDate:'', entityStatus:'idle'}]
-    const endState=todolistsReducer(state,setTodolistsAC({todolists:todolists}))
+    const endState=todolistsReducer(state,fetchTodolistsTC.fulfilled({todolists},'required'))
     expect(endState.length).toBe(1)
 })

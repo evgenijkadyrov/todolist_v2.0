@@ -49,9 +49,6 @@ const slice = createSlice({
     name: 'login',
     initialState: initialState,
     reducers: {
-        setIsLoginOn(state, action: PayloadAction<{ value: boolean }>) {
-            state.isLoginOn = action.payload.value
-        }
 
     },
     extraReducers: builder => {
@@ -65,8 +62,8 @@ const slice = createSlice({
 
 })
 export const loginReducer = slice.reducer
-export const {setIsLoginOn} = slice.actions
 
 
-export type IsLoginOnType = ReturnType<typeof setIsLoginOn>
+
+
 

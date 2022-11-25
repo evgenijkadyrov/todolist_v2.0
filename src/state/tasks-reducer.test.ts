@@ -1,5 +1,5 @@
 import {removeTodolistAC} from "./todolist-reducer";
-import {tasksReducer, updateTaskAC, fetchTasksTC, removeTaskTC, addTaskTC} from "./tasks-reducer";
+import {tasksReducer, fetchTasksTC, removeTaskTC, addTaskTC, updateTaskTC} from "./tasks-reducer";
 import { addTodolistAC} from "./todolist-reducer";
 import {TaskPriorities, TaskResponseType, TaskStatuses} from "../api/todolists-api";
 import {TasksStateType} from "../components/App/App";
@@ -23,7 +23,8 @@ beforeEach(()=>{
 
 
 test('correct task should be removed', () => {
-    const endState = tasksReducer(startState, removeTaskTC.fulfilled({todolistId:'todolistId2',taskId:'2'},'requiredId',{todolistId:'todolistId2',taskId:'2'}))
+    const updateModel = {todolistId:'todolistId2',taskId:'2'};
+    const endState = tasksReducer(startState, removeTaskTC.fulfilled(updateModel,'requiredId',updateModel))
    expect(endState['todolistId1'].length).toBe(3)
     expect(endState['todolistId2'].length).toBe(2)
 })
@@ -54,14 +55,16 @@ test('correct task should be added', () => {
 test('task status should be changed', () => {
 
 
-    const endState=tasksReducer(startState, updateTaskAC({todolistId:'todolistId1',id:'2',model:{status:TaskStatuses.Completed}}))
+    const updateModel = {todolistId:'todolistId1',taskId:'2',model:{status:TaskStatuses.Completed}};
+    const endState=tasksReducer(startState, updateTaskTC.fulfilled(updateModel,'required',updateModel))
     expect(endState['todolistId1'][1].status).toBe(TaskStatuses.Completed)
     expect(endState['todolistId2'][0].status).toBe(TaskStatuses.New)
 })
 test('task title should be changed', () => {
 
 
-    const endState=tasksReducer(startState, updateTaskAC({todolistId:'todolistId2',id:'2',model:{title:'pizza'}}))
+    const updateModel = {todolistId:'todolistId2',taskId:'2',model:{title:'pizza'}};
+    const endState=tasksReducer(startState, updateTaskTC.fulfilled(updateModel,'requist',updateModel))
     expect(endState['todolistId1'][1].title).toBe('Css')
     expect(endState['todolistId2'][1].title).toBe('pizza')
 })

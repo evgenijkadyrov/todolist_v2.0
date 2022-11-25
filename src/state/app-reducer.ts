@@ -1,7 +1,8 @@
 import {authAPI} from "../api/todolists-api";
 import {handleServerAppError, handleServerNetworkAppError} from "../utilites/error-utils";
-import {setIsLoginOn} from "./login-reducer";
+
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {loginTC} from "./login-reducer";
 
 export type initialStateType = {
     status: RequestStatusType,
@@ -20,12 +21,11 @@ export const inializedTC = createAsyncThunk('app/isInitialised', async (param, {
 
         if (res.data.resultCode === 0) {
 
-            dispatch(setIsLoginOn({value: true}))
+            dispatch(loginTC.fulfilled({isLoginOn:true},'required',{email:'',password:'',rememberMe:false}))
 
         } else {
             handleServerAppError(res.data, dispatch)
         }
-
 
     } catch (error: any) {
         handleServerNetworkAppError(error, dispatch)

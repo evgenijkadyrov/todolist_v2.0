@@ -11,7 +11,7 @@ import {
 } from "../../../state/todolist-reducer";
 import React, {useCallback, useEffect} from "react";
 import {TaskStatuses} from "../../../api/todolists-api";
-import {addTaskTC, removeTaskTC, UpdateTaskTC} from "../../../state/tasks-reducer";
+import {addTaskTC, removeTaskTC, updateTaskTC} from "../../../state/tasks-reducer";
 import AddItemForm from "../../AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {TasksStateType} from "../../App/App";
@@ -45,11 +45,11 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
     }, []);
 
     const changeTaskStatus = useCallback((todolistId: string, taskId: string, status: TaskStatuses) => {
-        dispatch(UpdateTaskTC(todolistId, taskId, {status}))
+        dispatch(updateTaskTC({todolistId, taskId, model:{status}}))
     }, []);
 
     const changeTaskTitle = useCallback((taskId: string, newTitle: string, todolistId: string) => {
-        dispatch(UpdateTaskTC(todolistId, taskId, {title: newTitle}))
+        dispatch(updateTaskTC({todolistId, taskId, model:{title: newTitle}}))
     }, []);
 
     const removeTask = useCallback((taskId: string, todolistId: string) => {

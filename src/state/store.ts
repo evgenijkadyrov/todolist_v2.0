@@ -3,7 +3,7 @@ import {actionTodolistsType, todolistsReducer} from "./todolist-reducer";
 import {actionTasksType, tasksReducer} from "./tasks-reducer";
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk'
 import {AppActionsType, appReducer} from "./app-reducer";
-import {IsLoginOnType, loginReducer} from "./login-reducer";
+import { loginReducer} from "./login-reducer";
 import {configureStore} from "@reduxjs/toolkit";
 
 const rootReducer=combineReducers({
@@ -13,7 +13,7 @@ const rootReducer=combineReducers({
     login:loginReducer,
 
 })
-type ActionsType=actionTodolistsType|actionTasksType|IsLoginOnType|AppActionsType
+type ActionsType=actionTodolistsType|actionTasksType|AppActionsType
 export type AppRootReducer=ReturnType<typeof rootReducer>
 // export const store=createStore(rootReducer, applyMiddleware(thunk))
 export const store=configureStore({
