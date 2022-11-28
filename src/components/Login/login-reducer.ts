@@ -9,7 +9,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 const initialState = {
     isLoginOn: false,
 }
-export const loginTC = createAsyncThunk<{ isLoginOn: boolean }, DataLoginPropsType, { rejectValue: { errors: Array<string>, fieldsErrors?: FieldsErrorType[] } }>('auth/login', async (param: DataLoginPropsType, thunkAPI) => {
+ const loginTC = createAsyncThunk<{ isLoginOn: boolean }, DataLoginPropsType, { rejectValue: { errors: Array<string>, fieldsErrors?: FieldsErrorType[] } }>('auth/login', async (param: DataLoginPropsType, thunkAPI) => {
     thunkAPI.dispatch(SetAppStatus({status: 'loading'}))
     try {
 
@@ -26,7 +26,7 @@ export const loginTC = createAsyncThunk<{ isLoginOn: boolean }, DataLoginPropsTy
         return thunkAPI.rejectWithValue({errors: [error.message], fieldsErrors: undefined})
     }
 })
-export const logoutTC = createAsyncThunk('auth/logout', async (param, {dispatch, rejectWithValue}) => {
+ const logoutTC = createAsyncThunk('auth/logout', async (param, {dispatch, rejectWithValue}) => {
     dispatch(SetAppStatus({status: 'loading'}))
     try {
         const res = await authAPI.logout()
@@ -44,7 +44,9 @@ export const logoutTC = createAsyncThunk('auth/logout', async (param, {dispatch,
     }
 
 })
+export const ActionsType={
 
+    loginTC,logoutTC }
 const slice = createSlice({
     name: 'login',
     initialState: initialState,

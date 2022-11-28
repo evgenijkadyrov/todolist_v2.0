@@ -1,5 +1,6 @@
 
-import {appReducer, RequestStatusType, SetAppStatus, initialStateType, SetAppError, inializedTC} from "./app-reducer";
+import {appReducer, RequestStatusType, SetAppStatus, initialStateType, SetAppError} from "./app-reducer";
+import {appActions} from "./index";
 
  let startState:initialStateType;
 beforeEach(()=>{
@@ -17,7 +18,7 @@ test('appStatus should be changed',()=>{
 })
 
 test('isInitialized shoul be changed',()=>{
-    const endState=appReducer(startState,inializedTC.fulfilled(undefined,'req',))
+    const endState=appReducer(startState,appActions.inializedTC.fulfilled(undefined,'req',))
     expect(endState.isInitialized).toBe(true)
 })
 

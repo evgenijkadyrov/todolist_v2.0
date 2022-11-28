@@ -10,18 +10,18 @@ import Button from "@mui/material/Button";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import ErrorSnackBar from "../SnackBar";
-import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, AppRootReducer, RootStateType, useAppDispatch} from "../../state/store";
-import {inializedTC, RequestStatusType} from "./app-reducer";
+import {useSelector} from "react-redux";
+import {useActions, useAppDispatch} from "../../state/store";
+
 import LinearProgress from "@mui/material/LinearProgress";
-import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "../Login/Login";
 import CircularProgress from "@mui/material/CircularProgress";
-import {logoutTC} from "../Login/login-reducer";
 
 
-import {loginSelectors} from "../Login";
-import {appSelectors} from "../App";
+import {loginActions, loginSelectors} from "../Login";
+import {appActions, appSelectors} from "../App";
+
 type PropsType={
     demo?:boolean
 }
@@ -35,17 +35,18 @@ const App = ({demo=false}:PropsType) => {
     const status = useSelector(appSelectors.selectStatus)
     const isInitialized = useSelector(appSelectors.selectIsInitialized)
     const isLoginOn = useSelector(loginSelectors.selectIsLoginOn)
+const {logoutTC}=useActions(loginActions)
+const {inializedTC}=useActions(appActions)
 
 
-    const dispatch = useAppDispatch()
     useEffect(()=>{
         if(!demo){
-            dispatch(inializedTC())
+            inializedTC()
         }
 
     },[])
     const logoutHandler=useCallback(()=>{
-        dispatch(logoutTC())
+        logoutTC()
     },[])
     if(!isInitialized){
         return <div style={{position:'fixed',width:'100%', top:'30%', textAlign:'center' }}><CircularProgress/></div>
