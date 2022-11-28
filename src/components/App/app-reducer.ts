@@ -1,8 +1,8 @@
-import {authAPI} from "../api/todolists-api";
-import {handleServerAppError, handleServerNetworkAppError} from "../utilites/error-utils";
+import {authAPI} from "../../api/todolists-api";
+import {handleServerAppError, handleServerNetworkAppError} from "../../utilites/error-utils";
 
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {loginTC} from "./login-reducer";
+import {loginTC} from "../Login/login-reducer";
 
 export type initialStateType = {
     status: RequestStatusType,

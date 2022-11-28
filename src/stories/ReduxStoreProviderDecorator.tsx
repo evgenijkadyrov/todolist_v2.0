@@ -1,13 +1,13 @@
 import {Provider} from "react-redux";
 import {v1} from "uuid";
 import {combineReducers} from "redux";
-import {todolistsReducer} from "../state/todolist-reducer";
-import {tasksReducer} from "../state/tasks-reducer";
+import {todolistsReducer} from "../components/features/Todolists/todolist-reducer";
+import {tasksReducer} from "../components/features/Todolists/tasks-reducer";
 import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
-import {appReducer} from "../state/app-reducer";
-import {RootState} from "../state/store";
+import {appReducer} from "../components/App/app-reducer";
+import {RootStateType} from "../state/store";
 import thunk from "redux-thunk";
-import {loginReducer} from "../state/login-reducer";
+import {loginReducer} from "../components/Login/login-reducer";
 import {configureStore} from "@reduxjs/toolkit";
 import {HashRouter} from "react-router-dom";
 
@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
 
 
 })
-const initialGlobalState: RootState = {
+const initialGlobalState: RootStateType = {
     todolists: [
         {id: 'todolistId1', title: 'What to learn', filter: 'all', order: 0, addedDate: '', entityStatus: 'idle'},
         {id: 'todolistId2', title: 'What to buy', filter: 'all', order: 0, addedDate: '', entityStatus: 'loading'}

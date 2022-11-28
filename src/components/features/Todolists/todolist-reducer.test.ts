@@ -6,7 +6,7 @@ import {
     changeTodolistEntityStatusAC,
 
     FilterType, fetchTodolistsTC, removeTodolistTC, addTodolistTC, changeTodolistTitleTC
-} from "../state/todolist-reducer";
+} from "./todolist-reducer";
 
 let todolistId1:string
 let todolistId2:string

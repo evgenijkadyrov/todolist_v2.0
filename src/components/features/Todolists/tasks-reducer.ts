@@ -1,9 +1,9 @@
 import {addTodolistTC, fetchTodolistsTC, removeTodolistTC,} from "./todolist-reducer";
-import {TaskPriorities, TaskStatuses, todolistsAPI, UpdateTaskType} from "../api/todolists-api";
-import {TasksStateType} from "../components/App/App";
-import {RootState} from "./store";
-import {SetAppStatus, SetErrorType, SetStatusType} from "./app-reducer";
-import {handleServerAppError, handleServerNetworkAppError} from "../utilites/error-utils";
+import {TaskPriorities, TaskStatuses, todolistsAPI, UpdateTaskType} from "../../../api/todolists-api";
+import {TasksStateType} from "../../App/App";
+import {RootStateType} from "../../../state/store";
+import {SetAppStatus, SetErrorType, SetStatusType} from "../../App/app-reducer";
+import {handleServerAppError, handleServerNetworkAppError} from "../../../utilites/error-utils";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 
@@ -49,7 +49,7 @@ export const addTaskTC = createAsyncThunk('tasks/addTask', async (param: { todol
 })
 export const updateTaskTC = createAsyncThunk('tasks/updateTask', async (param: { todolistId: string, taskId: string, model: UpdateDomainTaskType }, {dispatch, rejectWithValue, getState}) => {
     {
-        const state = getState() as RootState
+        const state = getState() as RootStateType
 
         const task = state.tasks[param.todolistId].find(el => el.id === param.taskId)
         if (!task) {

@@ -1,4 +1,4 @@
-import {SetAppError, SetAppStatus} from "../state/app-reducer";
+import {SetAppError, SetAppStatus} from "../components/App/app-reducer";
 import {Dispatch} from "redux";
 import {ResponseType} from "../api/todolists-api";
 

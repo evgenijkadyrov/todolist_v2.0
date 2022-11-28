@@ -5,10 +5,10 @@ import AddItemForm from "../../../../components/AddItemForm";
 import EditableSpan from "../../../../components/EditableSpan";
 import {Task} from "../../../../components/features/Todolists/Todolist/Task/Task";
 import {TaskResponseType, TaskStatuses} from "../../../../api/todolists-api";
-import {FilterType, TodolistDomainType} from "../../../../state/todolist-reducer";
+import {FilterType, TodolistDomainType} from "../todolist-reducer";
 import {useDispatch} from "react-redux";
-import {AppDispatch} from "../../../../state/store";
-import {fetchTasksTC} from "../../../../state/tasks-reducer";
+import {AppDispatch, useAppDispatch} from "../../../../state/store";
+import {fetchTasksTC} from "../tasks-reducer";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Button} from "@mui/material";
@@ -27,7 +27,7 @@ type PropsType = {
 }
 
 export const Todolist = React.memo((props: PropsType) => {
-    const useAppDispatch = () => useDispatch<AppDispatch>()
+
     const dispatch = useAppDispatch()
 
     useEffect(() => {

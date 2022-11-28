@@ -11,13 +11,17 @@ import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
 import ErrorSnackBar from "../SnackBar";
 import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, AppRootReducer} from "../../state/store";
-import {inializedTC, RequestStatusType} from "../../state/app-reducer";
+import {AppDispatch, AppRootReducer, RootStateType, useAppDispatch} from "../../state/store";
+import {inializedTC, RequestStatusType} from "./app-reducer";
 import LinearProgress from "@mui/material/LinearProgress";
 import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
 import {Login} from "../Login/Login";
 import CircularProgress from "@mui/material/CircularProgress";
-import {logoutTC} from "../../state/login-reducer";
+import {logoutTC} from "../Login/login-reducer";
+
+
+import {loginSelectors} from "../Login";
+import {appSelectors} from "../App";
 type PropsType={
     demo?:boolean
 }
@@ -26,12 +30,13 @@ export type TasksStateType = {
     [key: string]: Array<TaskResponseType>
 }
 
-function App({demo=false}:PropsType) {
-    const status = useSelector<AppRootReducer, any>(state => state.app.status)
+const App = ({demo=false}:PropsType) => {
 
-    const isInitialized = useSelector<AppRootReducer, boolean>(state => state.app.isInitialized)
-    const isLoginOn = useSelector<AppRootReducer, boolean>(state => state.login.isLoginOn)
-    const useAppDispatch = () => useDispatch<AppDispatch>()
+    const status = useSelector(appSelectors.selectStatus)
+    const isInitialized = useSelector(appSelectors.selectIsInitialized)
+    const isLoginOn = useSelector(loginSelectors.selectIsLoginOn)
+
+
     const dispatch = useAppDispatch()
     useEffect(()=>{
         if(!demo){
@@ -79,6 +84,6 @@ function App({demo=false}:PropsType) {
 
     );
 
-}
+};
 
 export default App;

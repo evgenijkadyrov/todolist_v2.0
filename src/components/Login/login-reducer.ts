@@ -1,6 +1,6 @@
-import {SetAppStatus} from "./app-reducer";
-import {authAPI, DataLoginPropsType, FieldsErrorType} from "../api/todolists-api";
-import {handleServerAppError, handleServerNetworkAppError} from "../utilites/error-utils";
+import {SetAppStatus} from "../App/app-reducer";
+import {authAPI, DataLoginPropsType, FieldsErrorType} from "../../api/todolists-api";
+import {handleServerAppError, handleServerNetworkAppError} from "../../utilites/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 // type InitialStateType = {
