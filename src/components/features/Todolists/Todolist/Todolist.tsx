@@ -6,12 +6,12 @@ import EditableSpan from "../../../../components/EditableSpan";
 import {Task} from "../../../../components/features/Todolists/Todolist/Task/Task";
 import {TaskResponseType, TaskStatuses} from "../../../../api/todolists-api";
 import {FilterType, TodolistDomainType} from "../todolist-reducer";
-import {useDispatch} from "react-redux";
-import {AppDispatch, useAppDispatch} from "../../../../state/store";
-import {fetchTasksTC} from "../tasks-reducer";
+import {useActions, useAppDispatch} from "../../../../state/store";
+
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Button} from "@mui/material";
+import {tasksActions} from "../index";
 
 type PropsType = {
     demo?: boolean
@@ -28,11 +28,11 @@ type PropsType = {
 
 export const Todolist = React.memo((props: PropsType) => {
 
-    const dispatch = useAppDispatch()
+   const {fetchTasksTC}=useActions(tasksActions)
 
     useEffect(() => {
         if (!props.demo)
-            dispatch(fetchTasksTC(props.todolist.id))
+            fetchTasksTC(props.todolist.id)
     }, [])
 
     const onAllClickHandler = useCallback(() => {
