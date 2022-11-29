@@ -36,7 +36,9 @@ export const Todolist = React.memo((props: PropsType) => {
         changeTodolistFilter({newFilter: filter, id: props.todolist.id})
     }, [props.todolist.id])
 
-    const addTaskCallback = useCallback((title: string) => {
+    const addTaskCallback = useCallback(async(title: string) => {
+
+
         addTask({title: title.trim(), todolistId: props.todolist.id})
 
     }, [props.todolist.id]);
@@ -65,7 +67,7 @@ export const Todolist = React.memo((props: PropsType) => {
 }
     return <div>
 <Paper style ={{padding:'5px', position:'relative'}}>
-        <h3><EditableSpan title={props.todolist.title} onChange={onChangeTitleHandler}/>
+        <h3 style={{flexWrap:"wrap", width:'250px'}} ><EditableSpan title={props.todolist.title} onChange={onChangeTitleHandler}/>
             <IconButton  style={{position:'absolute', top:'5px',right:'5px'}} onClick={OnClickRemoveTodoHandler} disabled={props.todolist.entityStatus === 'loading'}>
                 <DeleteIcon fontSize={'small'}/>
             </IconButton>
@@ -79,6 +81,7 @@ export const Todolist = React.memo((props: PropsType) => {
                 todolistId={props.todolist.id}
                 key={el.id}
             />)}
+            {!tasksForTodolist.length && <div style={{color:'grey'}}>No tasks</div>}
 
         </ul>
         <div>

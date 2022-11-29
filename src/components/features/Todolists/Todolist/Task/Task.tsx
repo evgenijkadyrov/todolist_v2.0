@@ -9,7 +9,7 @@ import {UpdateDomainTaskType} from "../../tasks-reducer";
 import {useActions} from "../../../../../state/store";
 import {tasksActions} from "../../index";
 
-type TaskPropsType = {
+export type TaskPropsType = {
     task: TaskResponseType
     todolistId: string
 }
@@ -36,8 +36,8 @@ export const Task = React.memo((props: TaskPropsType) => {
                 <Checkbox color={'primary'}
                           checked={props.task.status === TaskStatuses.Completed}
                           onChange={onChangeStatusHandler}/>
-                <EditableSpan title={props.task.title} onChange={onChangeTitleHandler}/>
-                <IconButton style={{position:'absolute',right:'5px'}} onClick={onClickRemoveHandler}><DeleteIcon fontSize={'small'}/>
+                <EditableSpan  title={props.task.title} onChange={onChangeTitleHandler}/>
+                <IconButton style={{position:'absolute',right:'5px', top:'2px',marginRight:'-5px'}} onClick={onClickRemoveHandler}><DeleteIcon fontSize={'small'}/>
                 </IconButton>
             </div>)
     }

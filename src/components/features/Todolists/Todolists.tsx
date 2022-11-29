@@ -6,9 +6,8 @@ import AddItemForm from "../../AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {Container} from "@mui/material";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
 import {Navigate} from "react-router-dom";
-import {tasksActions, todolistsActions, todolistsSelectors} from "../Todolists";
+import {todolistsActions, todolistsSelectors} from "../Todolists";
 import {loginSelectors} from "../../Login";
 
 type TodolistsListPropsType = {
@@ -20,8 +19,8 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
     const tasks = useSelector(todolistsSelectors.selectTasks)
     const isLoginOn=useSelector(loginSelectors.selectIsLoginOn)
 
-    const {fetchTodolists,addTodolist,changeTodolistEntityStatus,changeTodolistFilter,changeTodolistTitle,removeTodolist}=useActions(todolistsActions)
-    const {updateTask,addTask,removeTask}=useActions(tasksActions)
+    const {fetchTodolists,addTodolist,}=useActions(todolistsActions)
+
 
     useEffect(() => {
         if (props.demo||!isLoginOn){
@@ -32,7 +31,7 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
     }, [])
 
 
-    const addTodolistCallback = useCallback((title: string) => {
+    const addTodolistCallback = useCallback(async(title: string) => {
         addTodolist({title})
 
     }, []);

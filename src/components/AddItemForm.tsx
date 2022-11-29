@@ -18,14 +18,19 @@ const AddItemForm = React.memo((props: AddItemFormType) => {
 
     }
 
-    function addItemHandler() {
+    const addItemHandler = async() => {
         if (title.trim() !== '') {
-            props.addItem(title.trim())
+           try{
+            await props.addItem(title.trim())
             setTitle('')
-        } else {
+        }
+        catch(error){
+           }
+        }
+        else {
             setError('Title required')
         }
-    }
+    };
 
     const onkeyPresshandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (error !== null)
@@ -36,7 +41,7 @@ const AddItemForm = React.memo((props: AddItemFormType) => {
     }
     return (
 
-        <div>
+        <div style={{position:'relative'}} >
             <TextField
                 variant={'outlined'}
                 error={!!error}
@@ -47,9 +52,9 @@ const AddItemForm = React.memo((props: AddItemFormType) => {
                 helperText={error}
                 disabled={props.disabled}/>
 
-            <IconButton
+            <IconButton style={{position:'absolute', right:'5px'}}
                 color='primary' onClick={addItemHandler} disabled={props.disabled}>
-                <AddBox>+</AddBox>
+                <AddBox >+</AddBox>
             </IconButton>
 
         </div>)

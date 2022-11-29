@@ -1,5 +1,12 @@
 
-import {TaskPriorities, TaskStatuses, todolistsAPI, UpdateTaskType} from "../../../api/todolists-api";
+import {
+    FieldsErrorType,
+    TaskPriorities,
+    TaskResponseType,
+    TaskStatuses,
+    todolistsAPI,
+    UpdateTaskType
+} from "../../../api/todolists-api";
 import {TasksStateType} from "../../App/App";
 import {RootStateType} from "../../../state/store";
 import {SetAppStatus, SetErrorType, SetStatusType} from "../../App/app-reducer";
@@ -31,22 +38,22 @@ const initialState: TasksStateType = {}
         return thunkAPI.rejectWithValue(null)
     }
 })
- const addTask = createAsyncThunk('tasks/addTask', async (param: { todolistId: string, title: string }, thunkAPI) => {
+ const addTask = createAsyncThunk('tasks/addTask', async (param:{todolistId:string,title:string}, thunkAPI) => {
     thunkAPI.dispatch(SetAppStatus({status: 'loading'}))
     const res = await todolistsAPI.createTask(param.todolistId, param.title)
     try {
         thunkAPI.dispatch(SetAppStatus({status: 'success'}))
-        return ({task: res.data.data.item})
+
         if (res.data.resultCode === 0) {
             thunkAPI.dispatch(SetAppStatus({status: 'success'}))
-            return ({task: res.data.data.item})
+            return {task: res.data.data.item}
         } else {
             handleServerAppError(res.data, thunkAPI.dispatch)
-            return thunkAPI.rejectWithValue(null)
+            return thunkAPI.rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldsErrors})
         }
-    } catch (e: any) {
-        handleServerNetworkAppError(e, thunkAPI.dispatch)
-        return thunkAPI.rejectWithValue(null)
+    } catch (error: any) {
+        handleServerNetworkAppError(error, thunkAPI.dispatch)
+        return thunkAPI.rejectWithValue({errors: [error.message], fieldsErrors: undefined})
     }
 })
  const updateTask = createAsyncThunk('tasks/updateTask', async (param: { todolistId: string, taskId: string, model: UpdateDomainTaskType }, {dispatch, rejectWithValue, getState}) => {
