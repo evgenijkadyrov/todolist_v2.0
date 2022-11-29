@@ -74,7 +74,7 @@ test('new array should be added when new todolist is added', () => {
 
 
     const todolist = {id: 'todolistId3', title: 'how', order:0, addedDate:'',filter: 'all', entityStatus: 'idle'};
-    const endState = tasksReducer(startState, todolistsActions.addTodolistTC.fulfilled({todolist},'required',{title:'how'}))
+    const endState = tasksReducer(startState, todolistsActions.addTodolist.fulfilled({todolist},'required',{title:'how'}))
 
 
     const keys = Object.keys(endState)
@@ -88,7 +88,7 @@ test('new array should be added when new todolist is added', () => {
 })
 test('property with todolistId should be deleted', () => {
 
-        const endState = tasksReducer(startState, todolistsActions.removeTodolistTC.fulfilled({id:'todolistId2'},'required',{id:'todolistId2'}))
+        const endState = tasksReducer(startState, todolistsActions.removeTodolist.fulfilled({id:'todolistId2'},'required',{id:'todolistId2'}))
     const keys = Object.keys(endState)
 
     expect(keys.length).toBe(1)

@@ -95,13 +95,13 @@ export const slice = createSlice({
     initialState: initialState,
     reducers: { },
     extraReducers: (builder) => {
-        builder.addCase(todolistsActions.addTodolistTC.fulfilled, (state, action) => {
+        builder.addCase(todolistsActions.addTodolist.fulfilled, (state, action) => {
             state[action.payload.todolist.id] = []
         });
-        builder.addCase(todolistsActions.removeTodolistTC.fulfilled, (state, action) => {
+        builder.addCase(todolistsActions.removeTodolist.fulfilled, (state, action) => {
             delete state[action.payload.id]
         });
-        builder.addCase(todolistsActions.fetchTodolistsTC.fulfilled, (state, action) => {
+        builder.addCase(todolistsActions.fetchTodolists.fulfilled, (state, action) => {
             action.payload.todolists.forEach(el => {
                 state[el.id] = []
             })

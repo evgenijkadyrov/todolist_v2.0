@@ -1,15 +1,6 @@
 import {useSelector} from "react-redux";
-import {useActions, useAppDispatch} from "../../../state/store";
-import {
-
-    changeTodolistFilterAC,
-
-
-    FilterType,
-
-} from "./todolist-reducer";
+import {useActions} from "../../../state/store";
 import React, {useCallback, useEffect} from "react";
-import {TaskStatuses} from "../../../api/todolists-api";
 
 import AddItemForm from "../../AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
@@ -29,20 +20,20 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
     const tasks = useSelector(todolistsSelectors.selectTasks)
     const isLoginOn=useSelector(loginSelectors.selectIsLoginOn)
 
-    const {fetchTodolistsTC,addTodolistTC,changeTodolistEntityStatusAC,changeTodolistFilterAC,changeTodolistTitleTC,removeTodolistTC}=useActions(todolistsActions)
+    const {fetchTodolists,addTodolist,changeTodolistEntityStatus,changeTodolistFilter,changeTodolistTitle,removeTodolist}=useActions(todolistsActions)
     const {updateTask,addTask,removeTask}=useActions(tasksActions)
 
     useEffect(() => {
         if (props.demo||!isLoginOn){
             return
         }
-            fetchTodolistsTC()
+            fetchTodolists()
 
     }, [])
 
 
-    const addTodolist = useCallback((title: string) => {
-        addTodolistTC({title})
+    const addTodolistCallback = useCallback((title: string) => {
+        addTodolist({title})
 
     }, []);
     if(!isLoginOn){
@@ -51,15 +42,15 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
     return (
         <div className="App">
             <Container fixed>
-                <Grid container style={{padding: '20px'}}><AddItemForm addItem={addTodolist}/></Grid>
+                <Grid container style={{padding: '20px'}}><AddItemForm addItem={addTodolistCallback}/></Grid>
 
-                <Grid container spacing={3}>
+                <Grid container spacing={3} style={{flexWrap:'nowrap', overflowX:'scroll'}} >
                     {todolists.map((todolist) => {
                         let allTodolistTasks = tasks[todolist.id]
                         let tasksForTodolist = allTodolistTasks
 
                         return <Grid item>
-                            <Paper style={{padding: '10px'}}>
+                            <div style={{ width:'300px'} }>
                                 <Todolist
                                     key={todolist.id}
                                     demo={props.demo}
@@ -67,7 +58,7 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
                                     tasks={tasksForTodolist}
 
                                 />
-                            </Paper>
+                            </div>
                         </Grid>
                     })
                     }
