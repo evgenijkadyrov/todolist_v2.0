@@ -30,7 +30,7 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
     const isLoginOn=useSelector(loginSelectors.selectIsLoginOn)
 
     const {fetchTodolistsTC,addTodolistTC,changeTodolistEntityStatusAC,changeTodolistFilterAC,changeTodolistTitleTC,removeTodolistTC}=useActions(todolistsActions)
-    const {updateTaskTC,addTaskTC,removeTaskTC}=useActions(tasksActions)
+    const {updateTask,addTask,removeTask}=useActions(tasksActions)
 
     useEffect(() => {
         if (props.demo||!isLoginOn){
@@ -40,37 +40,6 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
 
     }, [])
 
-
-    const changeFilter = useCallback((filter: FilterType, todolistId: string) => {
-
-        changeTodolistFilterAC({newFilter:filter, id:todolistId})
-    }, []);
-
-    const changeTaskStatus = useCallback((todolistId: string, taskId: string, status: TaskStatuses) => {
-       updateTaskTC({todolistId, taskId, model:{status}})
-    }, []);
-
-    const changeTaskTitle = useCallback((taskId: string, newTitle: string, todolistId: string) => {
-        updateTaskTC({todolistId, taskId, model:{title: newTitle}})
-    }, []);
-
-    const removeTask = useCallback((taskId: string, todolistId: string) => {
-        removeTaskTC({todolistId, taskId})
-
-    }, []);
-
-    const addTask = useCallback((title: string, todolistId: string) => {
-        addTaskTC({todolistId, title})
-    }, []);
-
-    const removeTodolist = useCallback((todolistId: string) => {
-        removeTodolistTC({id:todolistId})
-    }, []);
-
-    const changeTodolistTitle = useCallback((todolistId: string, newTitle: string,) => {
-        changeTodolistTitleTC({id:todolistId, title:newTitle})
-
-    }, [])
 
     const addTodolist = useCallback((title: string) => {
         addTodolistTC({title})
@@ -96,13 +65,6 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
                                     demo={props.demo}
                                     todolist={todolist}
                                     tasks={tasksForTodolist}
-                                    removeTask={removeTask}
-                                    changeFilter={changeFilter}
-                                    addTask={addTask}
-                                    changeTaskStatus={changeTaskStatus}
-                                    removeTodolist={removeTodolist}
-                                    changeTaskTitle={changeTaskTitle}
-                                    changeTodolistTitle={changeTodolistTitle}
 
                                 />
                             </Paper>

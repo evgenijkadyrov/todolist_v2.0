@@ -25,7 +25,7 @@ beforeEach(()=>{
 
 test('correct task should be removed', () => {
     const updateModel = {todolistId:'todolistId2',taskId:'2'};
-    const endState = tasksReducer(startState, tasksActions.removeTaskTC.fulfilled(updateModel,'requiredId',updateModel))
+    const endState = tasksReducer(startState, tasksActions.removeTask.fulfilled(updateModel,'requiredId',updateModel))
    expect(endState['todolistId1'].length).toBe(3)
     expect(endState['todolistId2'].length).toBe(2)
 })
@@ -46,7 +46,7 @@ test('correct task should be added', () => {
             todoListId: 'todolistId1'
         }
     };
-    const endState=tasksReducer(startState, tasksActions.addTaskTC.fulfilled(task,'requiredId', {todolistId:'todolistId1',title:'MILK'}))
+    const endState=tasksReducer(startState, tasksActions.addTask.fulfilled(task,'requiredId', {todolistId:'todolistId1',title:'MILK'}))
 
     expect(endState['todolistId2'].length).toBe(3)
     expect(endState['todolistId1'].length).toBe(4)
@@ -57,7 +57,7 @@ test('task status should be changed', () => {
 
 
     const updateModel = {todolistId:'todolistId1',taskId:'2',model:{status:TaskStatuses.Completed}};
-    const endState=tasksReducer(startState, tasksActions.updateTaskTC.fulfilled(updateModel,'required',updateModel))
+    const endState=tasksReducer(startState, tasksActions.updateTask.fulfilled(updateModel,'required',updateModel))
     expect(endState['todolistId1'][1].status).toBe(TaskStatuses.Completed)
     expect(endState['todolistId2'][0].status).toBe(TaskStatuses.New)
 })
@@ -65,7 +65,7 @@ test('task title should be changed', () => {
 
 
     const updateModel = {todolistId:'todolistId2',taskId:'2',model:{title:'pizza'}};
-    const endState=tasksReducer(startState, tasksActions.updateTaskTC.fulfilled(updateModel,'requist',updateModel))
+    const endState=tasksReducer(startState, tasksActions.updateTask.fulfilled(updateModel,'requist',updateModel))
     expect(endState['todolistId1'][1].title).toBe('Css')
     expect(endState['todolistId2'][1].title).toBe('pizza')
 })
@@ -101,7 +101,7 @@ test ('tasks should be added to todolist',()=>{
         'todolistId1':[],
         'todolistId2':[],
 
-    },tasksActions.fetchTasksTC.fulfilled({tasks, todolistId: 'todolistId1'},'requiredId','todolistId1' ))
+    },tasksActions.fetchTasks.fulfilled({tasks, todolistId: 'todolistId1'},'requiredId','todolistId1' ))
 
     expect(endState['todolistId1'].length).toBe(3)
     expect(endState['todolistId2'].length).toBe(0)

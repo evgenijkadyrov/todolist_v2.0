@@ -11,7 +11,7 @@ import {ActionsType as todolistsActions} from "./todolist-reducer";
 
 const initialState: TasksStateType = {}
 //asyncThunks
- const fetchTasksTC = createAsyncThunk('tasks/fetchTasks', async (todolistId: string, thunkAPI) => {
+ const fetchTasks = createAsyncThunk('tasks/fetchTasks', async (todolistId: string, thunkAPI) => {
     thunkAPI.dispatch(SetAppStatus({status: 'loading'}))
     const res = await todolistsAPI.getTasks(todolistId)
 
@@ -19,7 +19,7 @@ const initialState: TasksStateType = {}
     return {tasks: res.data.items, todolistId}
 
 })
- const removeTaskTC = createAsyncThunk('tasks/removeTask', async (param: { todolistId: string, taskId: string }, thunkAPI) => {
+ const removeTask = createAsyncThunk('tasks/removeTask', async (param: { todolistId: string, taskId: string }, thunkAPI) => {
     try {
         thunkAPI.dispatch(SetAppStatus({status: 'loading'}))
         const res = await todolistsAPI.deleteTask(param.todolistId, param.taskId)
@@ -31,7 +31,7 @@ const initialState: TasksStateType = {}
         return thunkAPI.rejectWithValue(null)
     }
 })
- const addTaskTC = createAsyncThunk('tasks/addTask', async (param: { todolistId: string, title: string }, thunkAPI) => {
+ const addTask = createAsyncThunk('tasks/addTask', async (param: { todolistId: string, title: string }, thunkAPI) => {
     thunkAPI.dispatch(SetAppStatus({status: 'loading'}))
     const res = await todolistsAPI.createTask(param.todolistId, param.title)
     try {
@@ -49,7 +49,7 @@ const initialState: TasksStateType = {}
         return thunkAPI.rejectWithValue(null)
     }
 })
- const updateTaskTC = createAsyncThunk('tasks/updateTask', async (param: { todolistId: string, taskId: string, model: UpdateDomainTaskType }, {dispatch, rejectWithValue, getState}) => {
+ const updateTask = createAsyncThunk('tasks/updateTask', async (param: { todolistId: string, taskId: string, model: UpdateDomainTaskType }, {dispatch, rejectWithValue, getState}) => {
     {
         const state = getState() as RootStateType
 
@@ -88,7 +88,7 @@ const initialState: TasksStateType = {}
 })
 
 export const ActionType={
-    fetchTasksTC, removeTaskTC,addTaskTC,updateTaskTC
+    fetchTasks: fetchTasks,  removeTask, addTask,updateTask
 }
 export const slice = createSlice({
     name: 'tasks',
@@ -106,20 +106,20 @@ export const slice = createSlice({
                 state[el.id] = []
             })
         });
-        builder.addCase(fetchTasksTC.fulfilled, ((state, action) => {
+        builder.addCase(fetchTasks.fulfilled, ((state, action) => {
             state[action.payload.todolistId] = action.payload.tasks
         }))
-        builder.addCase(removeTaskTC.fulfilled, ((state, action) => {
+        builder.addCase(removeTask.fulfilled, ((state, action) => {
             const index = state[action.payload.todolistId].findIndex(el => el.id === action.payload.taskId)
             state[action.payload.todolistId].splice(index, 1)
         }));
-        builder.addCase(addTaskTC.fulfilled, ((state, action) => {
+        builder.addCase(addTask.fulfilled, ((state, action) => {
                 if (action.payload.task) {
                     state[action.payload.task.todoListId].unshift(action.payload.task)
                 }
             }
         ))
-        builder.addCase(updateTaskTC.fulfilled,((state,action)=>{
+        builder.addCase(updateTask.fulfilled,((state,action)=>{
             const tasks = state[action.payload.todolistId]
             const index = tasks.findIndex(el => el.id === action.payload.taskId)
             tasks[index] = {...tasks[index], ...action.payload.model}
