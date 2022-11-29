@@ -1,4 +1,4 @@
-import {todolistsAPI, TodolistType} from "../../../api/todolists-api";
+import {FieldsErrorType, todolistsAPI, TodolistType} from "../../../api/todolists-api";
 import {RequestStatusType, SetAppStatus} from "../../App/app-reducer";
 import {handleServerAppError, handleServerNetworkAppError} from "../../../utilites/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
@@ -28,21 +28,24 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
         return rejectWithValue(null)
     }
 })
- const addTodolist = createAsyncThunk('todolists/addTodolist', async (param: { title: string }, {dispatch, rejectWithValue}) => {
+ const addTodolist = createAsyncThunk< any, { title: string },
+     { rejectValue: { errors: Array<string>, fieldsErrors?: FieldsErrorType[] } }>('todolists/addTodolist', async (param: { title: string }, {dispatch, rejectWithValue}) => {
     dispatch(SetAppStatus({status: 'loading'}))
-    const res = await todolistsAPI.createTodolist(param.title)
+
     try {
+        const res = await todolistsAPI.createTodolist(param.title)
         if (res.data.resultCode === 0) {
 
             dispatch(SetAppStatus({status: 'success'}))
             return {todolist: res.data.data.item}
         } else {
+
             handleServerAppError(res.data, dispatch)
-            return rejectWithValue(null)
+            return rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldsErrors})
         }
     } catch (error: any) {
         handleServerNetworkAppError(error, dispatch)
-        return rejectWithValue(null)
+        return rejectWithValue({errors: [error.messages], fieldsErrors: undefined})
     }
 })
  const changeTodolistTitle = createAsyncThunk('todolists/changeTodolistTitle', async (param: { id: string, title: string }, {dispatch, rejectWithValue}) => {
@@ -91,7 +94,7 @@ export const slice = createSlice({
             state.splice(index, 1)
         })
         builder.addCase(addTodolist.fulfilled, (state, action) => {
-            state.unshift({...action.payload.todolist, filter: 'all', entityStatus: 'idle'})
+            state.unshift({...action.payload, filter: 'all', entityStatus: 'idle'})
         })
         builder.addCase(changeTodolistTitle.fulfilled, (state, action) => {
             const todolist = state.find(el => el.id === action.payload.id)

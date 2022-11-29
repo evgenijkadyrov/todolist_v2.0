@@ -1,5 +1,5 @@
 import {useSelector} from "react-redux";
-import {useActions} from "../../../state/store";
+import {useActions, useAppDispatch} from "../../../state/store";
 import React, {useCallback, useEffect} from "react";
 
 import AddItemForm from "../../AddItemForm";
@@ -7,8 +7,8 @@ import {Todolist} from "./Todolist/Todolist";
 import {Container} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import {Navigate} from "react-router-dom";
-import {todolistsActions, todolistsSelectors} from "../Todolists";
-import {loginSelectors} from "../../Login";
+import {tasksActions, todolistsActions, todolistsSelectors} from "../Todolists";
+import {loginActions, loginSelectors} from "../../Login";
 
 type TodolistsListPropsType = {
     demo?: boolean
@@ -20,7 +20,7 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
     const isLoginOn=useSelector(loginSelectors.selectIsLoginOn)
 
     const {fetchTodolists,addTodolist,}=useActions(todolistsActions)
-
+const dispatch=useAppDispatch()
 
     useEffect(() => {
         if (props.demo||!isLoginOn){
@@ -32,8 +32,17 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
 
 
     const addTodolistCallback = useCallback(async(title: string) => {
-        addTodolist({title})
+        const thunk=todolistsActions.addTodolist({title})
+        const action = await dispatch(thunk);
+        if (todolistsActions.addTodolist.rejected.match(action)) {
 
+            if (action.payload?.errors?.length) {
+                const errorMessages = action.payload?.errors[0]
+                throw new Error(errorMessages)
+            }else {
+                throw new Error ('somethinhg wrong')
+            }
+        }
     }, []);
     if(!isLoginOn){
         return <Navigate to={'/login'}/>

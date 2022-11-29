@@ -3,13 +3,14 @@ import {Button} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import AddBox from "@mui/material/IconButton";
+import {AxiosError} from "axios";
 
 type AddItemFormType = {
     addItem: (title: string) => void
     disabled?: boolean
 }
 const AddItemForm = React.memo((props: AddItemFormType) => {
-    console.log("AddItemForm called")
+
     const [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
 
@@ -20,11 +21,16 @@ const AddItemForm = React.memo((props: AddItemFormType) => {
 
     const addItemHandler = async() => {
         if (title.trim() !== '') {
+
            try{
-            await props.addItem(title.trim())
+               await props.addItem(title)
             setTitle('')
         }
-        catch(error){
+
+        catch(e:any){
+
+const error=e.message
+            setError(error)
            }
         }
         else {
@@ -35,14 +41,20 @@ const AddItemForm = React.memo((props: AddItemFormType) => {
     const onkeyPresshandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (error !== null)
             setError(null)
+
         if (e.key === 'Enter') {
             addItemHandler()
         }
+    }
+    const onBlurHandler=()=>{
+        setError(null)
     }
     return (
 
         <div style={{position:'relative'}} >
             <TextField
+                autoFocus
+                onBlur={onBlurHandler}
                 variant={'outlined'}
                 error={!!error}
                 value={title}

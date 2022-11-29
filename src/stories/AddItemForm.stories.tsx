@@ -5,6 +5,10 @@ export default {
     title:'AddItemForm component',
     component:AddItemForm
 }
+const AddItenCallback=async ()=>{
+    await callback
+}
+
 const callback=action('Button add was pressed')
 export const AddItemFormBAseExample = (props:any) => {
-    return <AddItemForm addItem={callback} disabled={true}/>}
+    return <AddItemForm addItem={AddItenCallback} disabled={true}/>}

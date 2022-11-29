@@ -45,7 +45,7 @@ export const slice = createSlice({
 
         SetAppError(state, action: PayloadAction<{ error: string | null }>) {
 
-            // @ts-ignore
+
             state.error = action.payload.error
         }
     },
@@ -63,10 +63,7 @@ export const {SetAppError, SetAppStatus} = slice.actions
 //types
 export type RequestStatusType = 'idle' | 'loading' | 'success' | 'failed'
 
-export type SetErrorType = ReturnType<typeof SetAppError>
-export type SetStatusType = ReturnType<typeof SetAppStatus>;
 
 
-export type AppActionsType =
-    | SetErrorType
-    | SetStatusType
+
+

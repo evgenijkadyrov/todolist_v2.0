@@ -6,7 +6,7 @@ import EditableSpan from "../../../../components/EditableSpan";
 import {Task} from "../../../../components/features/Todolists/Todolist/Task/Task";
 import {TaskResponseType, TaskStatuses} from "../../../../api/todolists-api";
 import {FilterType, TodolistDomainType} from "../todolist-reducer";
-import {useActions} from "../../../../state/store";
+import {useActions, useAppDispatch} from "../../../../state/store";
 
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -25,7 +25,7 @@ export const Todolist = React.memo((props: PropsType) => {
 
     const {fetchTasks,  addTask,} = useActions(tasksActions)
     const {removeTodolist, changeTodolistFilter, changeTodolistTitle,} = useActions(todolistsActions)
-
+const dispatch=useAppDispatch()
     useEffect(() => {
         if (!props.demo)
             fetchTasks(props.todolist.id)
@@ -39,8 +39,17 @@ export const Todolist = React.memo((props: PropsType) => {
     const addTaskCallback = useCallback(async(title: string) => {
 
 
-        addTask({title: title.trim(), todolistId: props.todolist.id})
+        const thunk=tasksActions.addTask({title: title.trim(), todolistId: props.todolist.id})
+        const action = await dispatch(thunk);
+        if (tasksActions.addTask.rejected.match(action)) {
 
+            if (action.payload?.errors?.length) {
+                const errorMessages = action.payload?.errors[0]
+                throw new Error(errorMessages)
+            }else {
+                throw new Error ('somethinhg wrong')
+            }
+        }
     }, [props.todolist.id]);
 
     const OnClickRemoveTodoHandler = useCallback(() => {

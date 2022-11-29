@@ -1,19 +1,10 @@
-
-import {
-    FieldsErrorType,
-    TaskPriorities,
-    TaskResponseType,
-    TaskStatuses,
-    todolistsAPI,
-    UpdateTaskType
-} from "../../../api/todolists-api";
+import {FieldsErrorType, TaskPriorities, TaskStatuses, todolistsAPI, UpdateTaskType} from "../../../api/todolists-api";
 import {TasksStateType} from "../../App/App";
 import {RootStateType} from "../../../state/store";
-import {SetAppStatus, SetErrorType, SetStatusType} from "../../App/app-reducer";
+import {SetAppStatus,} from "../../App/app-reducer";
 import {handleServerAppError, handleServerNetworkAppError} from "../../../utilites/error-utils";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {ActionsType as todolistsActions} from "./todolist-reducer";
-
 
 
 const initialState: TasksStateType = {}
@@ -38,7 +29,7 @@ const initialState: TasksStateType = {}
         return thunkAPI.rejectWithValue(null)
     }
 })
- const addTask = createAsyncThunk('tasks/addTask', async (param:{todolistId:string,title:string}, thunkAPI) => {
+ const addTask = createAsyncThunk<any, {todolistId:string,title:string},{ rejectValue: { errors: Array<string>, fieldsErrors?: FieldsErrorType[] } }>('tasks/addTask', async (param:{todolistId:string,title:string}, thunkAPI) => {
     thunkAPI.dispatch(SetAppStatus({status: 'loading'}))
     const res = await todolistsAPI.createTask(param.todolistId, param.title)
     try {
@@ -147,7 +138,3 @@ export type UpdateDomainTaskType = {
     startDate?: string | null
     deadline?: string | null
 }
-export type actionTasksType =
-
-    | SetErrorType
-    | SetStatusType
