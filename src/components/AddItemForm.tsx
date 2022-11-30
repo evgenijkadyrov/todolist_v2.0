@@ -1,15 +1,13 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {Button} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import AddBox from "@mui/material/IconButton";
-import {AxiosError} from "axios";
 
 type AddItemFormType = {
     addItem: (title: string) => void
     disabled?: boolean
 }
-const AddItemForm = React.memo((props: AddItemFormType) => {
+export const AddItemForm = React.memo((props: AddItemFormType) => {
 
     const [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
@@ -70,4 +68,3 @@ const AddItemForm = React.memo((props: AddItemFormType) => {
         </div>)
 });
 
-export default AddItemForm;

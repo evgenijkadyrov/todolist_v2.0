@@ -1,11 +1,10 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import MuiAlert, {AlertProps} from '@mui/material/Alert';
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootReducer} from "../state/store";
-import {SetAppError} from "./App/app-reducer";
+import {AppRootReducer} from "../utilites/types";
+import {ActionsCommonType} from "./CommonActions/ApplicationCommonActions";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -24,7 +23,7 @@ const dispatch=useDispatch()
             return;
         }
 
-    dispatch(SetAppError({error:null}))
+    dispatch(ActionsCommonType.SetAppError({error:null}))
     };
 
     return (

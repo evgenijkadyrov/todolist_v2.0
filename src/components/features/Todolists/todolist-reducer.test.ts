@@ -1,11 +1,6 @@
 import {v1} from "uuid";
-import {
-    TodolistDomainType,
-    todolistsReducer,
-
-    FilterType,
-} from "./todolist-reducer";
-import {todolistsActions} from "./index";
+import {todolistsActions, todolistsReducer} from "../Todolists";
+import {FilterType, TodolistDomainType} from "./types";
 
 let todolistId1:string
 let todolistId2:string
@@ -63,7 +58,8 @@ test ('entityStatus should be changed',()=>{
 })
 test ('todolists should be adeed',()=>{
     const state:Array<TodolistDomainType>=[]
-    const todolists= [{id: todolistId1, title: 'how', filter: 'all', order:0, addedDate:'', entityStatus:'idle'}]
-    const endState=todolistsReducer(state,todolistsActions.fetchTodolists.fulfilled({todolists},'required'))
+    const title='how'
+    const todolists= [{id: todolistId1, title, filter: 'all', order:0, addedDate:'', entityStatus:'idle'}]
+    const endState=todolistsReducer(state,todolistsActions.fetchTodolists.fulfilled({todolists},'required',undefined ))
     expect(endState.length).toBe(1)
 })

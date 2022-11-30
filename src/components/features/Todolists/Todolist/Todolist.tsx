@@ -1,45 +1,36 @@
 import React, {useCallback, useEffect} from "react";
-
-import '../../../App/App.css';
-import AddItemForm from "../../../../components/AddItemForm";
+import '../../../../app/App.css';
+import {AddItemForm} from "../../../../components/AddItemForm";
 import EditableSpan from "../../../../components/EditableSpan";
 import {Task} from "../../../../components/features/Todolists/Todolist/Task/Task";
-import {TaskResponseType, TaskStatuses} from "../../../../api/todolists-api";
-import {FilterType, TodolistDomainType} from "../todolist-reducer";
-import {useActions, useAppDispatch} from "../../../../state/store";
-
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {Button, ButtonPropsColorOverrides, PropTypes} from "@mui/material";
-import {tasksActions, todolistsActions} from "../index";
-import {OverridableStringUnion} from "@mui/types";
+import {Button} from "@mui/material";
+import {tasksActions, todolistsActions} from "../../Todolists";
 import Paper from "@mui/material/Paper";
-
-type PropsType = {
-    demo?: boolean
-    todolist: TodolistDomainType
-    tasks: Array<TaskResponseType>
-}
+import {useActions, useAppDispatch} from "../../../../utilites/redux-utils";
+import {TaskStatuses} from "../../../../api/types";
+import {FilterType, PropsType} from "../types";
 
 export const Todolist = React.memo((props: PropsType) => {
 
-    const {fetchTasks,  addTask,} = useActions(tasksActions)
+    const {fetchTasks,} = useActions(tasksActions)
     const {removeTodolist, changeTodolistFilter, changeTodolistTitle,} = useActions(todolistsActions)
-const dispatch=useAppDispatch()
+    const dispatch = useAppDispatch()
     useEffect(() => {
         if (!props.demo)
             fetchTasks(props.todolist.id)
     }, [])
 
-    const onFilterButtonClickHandler = useCallback((filter:FilterType) => {
+    const onFilterButtonClickHandler = useCallback((filter: FilterType) => {
 
         changeTodolistFilter({newFilter: filter, id: props.todolist.id})
     }, [props.todolist.id])
 
-    const addTaskCallback = useCallback(async(title: string) => {
+    const addTaskCallback = useCallback(async (title: string) => {
 
 
-        const thunk=tasksActions.addTask({title: title.trim(), todolistId: props.todolist.id})
+        const thunk = tasksActions.addTask({title: title.trim(), todolistId: props.todolist.id})
         const action = await dispatch(thunk);
         if (tasksActions.addTask.rejected.match(action)) {
 
@@ -47,8 +38,8 @@ const dispatch=useAppDispatch()
 
                 const errorMessages = action.payload?.errors
                 throw new Error(errorMessages[0])
-            }else {
-                throw new Error ('somethinhg wrong')
+            } else {
+                throw new Error('Something wrong')
             }
         }
     }, [props.todolist.id]);
@@ -67,40 +58,44 @@ const dispatch=useAppDispatch()
     if (props.todolist.filter === 'active') {
         tasksForTodolist = props.tasks.filter(el => el.status === TaskStatuses.New)
     }
-    type ColorType="success" | "inherit" | "primary" | "secondary" | "error" | "info" | "warning" | undefined
+    type ColorType = "success" | "inherit" | "primary" | "secondary" | "error" | "info" | "warning" | undefined
 
-    const renderFilterButton=( buttonFilter:FilterType, color:ColorType,text:string)=>{
-    return <Button variant={props.todolist.filter === buttonFilter ? 'outlined' : 'text'}
-                   onClick={()=>{onFilterButtonClickHandler(buttonFilter)}}
-                   color={color}>{text}
-    </Button>
-}
+    const renderFilterButton = (buttonFilter: FilterType, color: ColorType, text: string) => {
+        return <Button variant={props.todolist.filter === buttonFilter ? 'outlined' : 'text'}
+                       onClick={() => {
+                           onFilterButtonClickHandler(buttonFilter)
+                       }}
+                       color={color}>{text}
+        </Button>
+    }
     return <div>
-<Paper style ={{padding:'5px', position:'relative'}}>
-        <h3 style={{flexWrap:"wrap", width:'250px'}} ><EditableSpan title={props.todolist.title} onChange={onChangeTitleHandler}/>
-            <IconButton  style={{position:'absolute', top:'5px',right:'5px'}} onClick={OnClickRemoveTodoHandler} disabled={props.todolist.entityStatus === 'loading'}>
-                <DeleteIcon fontSize={'small'}/>
-            </IconButton>
+        <Paper style={{padding: '5px', position: 'relative'}}>
+            <h3 style={{flexWrap: "wrap", width: '250px'}}><EditableSpan title={props.todolist.title}
+                                                                         onChange={onChangeTitleHandler}/>
+                <IconButton style={{position: 'absolute', top: '5px', right: '5px'}} onClick={OnClickRemoveTodoHandler}
+                            disabled={props.todolist.entityStatus === 'loading'}>
+                    <DeleteIcon fontSize={'small'}/>
+                </IconButton>
 
-        </h3>
+            </h3>
 
-        <AddItemForm addItem={addTaskCallback} disabled={props.todolist.entityStatus === 'loading'}/>
-        <ul>
-            {tasksForTodolist.map(el => <Task
-                task={el}
-                todolistId={props.todolist.id}
-                key={el.id}
-            />)}
-            {!tasksForTodolist.length && <div style={{color:'grey'}}>No tasks</div>}
+            <AddItemForm addItem={addTaskCallback} disabled={props.todolist.entityStatus === 'loading'}/>
+            <ul>
+                {tasksForTodolist.map(el => <Task
+                    task={el}
+                    todolistId={props.todolist.id}
+                    key={el.id}
+                />)}
+                {!tasksForTodolist.length && <div style={{color: 'grey'}}>No tasks</div>}
 
-        </ul>
-        <div>
-            {renderFilterButton('all',"success",'All')}
-            {renderFilterButton('active',"info",'Active')}
-            {renderFilterButton('completed',"secondary",'Completed')}
+            </ul>
+            <div>
+                {renderFilterButton('all', "success", 'All')}
+                {renderFilterButton('active', "info", 'Active')}
+                {renderFilterButton('completed', "secondary", 'Completed')}
 
-        </div>
-</Paper>
+            </div>
+        </Paper>
     </div>
 
 });

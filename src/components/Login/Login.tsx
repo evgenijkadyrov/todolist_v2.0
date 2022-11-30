@@ -10,16 +10,12 @@ import Button from '@mui/material/Button';
 import {FormikHelpers, useFormik} from "formik";
 import {useSelector} from "react-redux";
 
-import {useAppDispatch} from "../../state/store";
 import {Navigate} from "react-router-dom";
 
 import {loginActions, loginSelectors} from "../Login";
+import {useAppDispatch} from "../../utilites/redux-utils";
+import {FormValuesType} from "./types";
 
-type FormValuesType = {
-    email: string
-    password: string
-    rememberMe: boolean
-}
 export const Login = () => {
 
     const isLoginOn = useSelector(loginSelectors.selectIsLoginOn)
@@ -43,15 +39,14 @@ export const Login = () => {
         },
         onSubmit: async (values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) => {
 
-            const action = await dispatch(loginActions.loginTC(values));
-            if (loginActions.loginTC.rejected.match(action)) {
+            const action = await dispatch(loginActions.login(values));
+            if (loginActions.login.rejected.match(action)) {
 
                 if (action.payload?.fieldsErrors?.length) {
                     const error = action.payload?.fieldsErrors[0]
                     formikHelpers.setFieldError(error.field, error.error);
                 }
             }
-
         }
     })
     if (isLoginOn) {
@@ -82,8 +77,7 @@ export const Login = () => {
                         <TextField type="password" label="Password"
                                    margin="normal"
                                    {...formik.getFieldProps('password')}
-                            // name={'password'} onChange={formik.handleChange}
-                            // value={formik.values.password}
+
                         />
                         {formik.errors.password ? <div>{formik.errors.password}</div> : null}
                         <FormControlLabel label={'Remember me'} control={<Checkbox onChange={formik.handleChange}

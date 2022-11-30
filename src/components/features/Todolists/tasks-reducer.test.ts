@@ -1,9 +1,9 @@
 
 import {tasksReducer, } from "./tasks-reducer";
 import { } from "./todolist-reducer";
-import {TaskPriorities, TaskResponseType, TaskStatuses} from "../../../api/todolists-api";
-import {TasksStateType} from "../../App/App";
 import {tasksActions, todolistsActions} from "./index";
+import {TaskPriorities, TaskStatuses} from "../../../api/types";
+import {TasksStateType} from "../../../app/types";
 
 let startState:TasksStateType
 beforeEach(()=>{

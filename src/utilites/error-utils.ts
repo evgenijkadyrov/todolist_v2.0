@@ -1,7 +1,8 @@
-import {SetAppError, SetAppStatus} from "../components/App/app-reducer";
 import {Dispatch} from "redux";
-import {ResponseType} from "../api/todolists-api";
+import {ResponseType} from "../api/types";
+import {ActionsCommonType} from "../components/CommonActions/ApplicationCommonActions";
 
+const{SetAppError,SetAppStatus}=ActionsCommonType
 export const handleServerAppError=<D>(data:ResponseType<D>,dispatch:Dispatch)=>{
     if (data.messages[0]) {
         dispatch(SetAppError({error:data.messages[0]}))

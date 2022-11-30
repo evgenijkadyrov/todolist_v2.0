@@ -1,4 +1,4 @@
-import App from "../components/App/App";
+import App from "../app/App";
 import {BrowserRouterDecorator, ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
 
 export default{

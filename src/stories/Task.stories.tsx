@@ -2,8 +2,8 @@ import React from "react";
 import {Task} from "../components/features/Todolists/Todolist/Task/Task";
 import {action} from "@storybook/addon-actions";
 import {ComponentMeta, ComponentStory} from "@storybook/react";
-import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
 import {ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
+import {TaskPriorities, TaskStatuses} from "../api/types";
 
 export default {
     title: 'Task component',
