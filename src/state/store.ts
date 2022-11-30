@@ -1,9 +1,9 @@
 import {ActionCreatorsMapObject, bindActionCreators, combineReducers} from "redux";
 import {actionTodolistsType, todolistsReducer} from "../components/features/Todolists/todolist-reducer";
-import { tasksReducer} from "../components/features/Todolists/tasks-reducer";
+import { tasksReducer} from "../components/features/Todolists";
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk'
-import { appReducer} from "../components/App/app-reducer";
-import { loginReducer} from "../components/Login/login-reducer";
+import { appReducer} from "../components/App";
+import { loginReducer} from "../components/Login";
 import {configureStore} from "@reduxjs/toolkit";
 import {useDispatch} from "react-redux";
 import {useMemo} from "react";

@@ -44,8 +44,9 @@ const dispatch=useAppDispatch()
         if (tasksActions.addTask.rejected.match(action)) {
 
             if (action.payload?.errors?.length) {
-                const errorMessages = action.payload?.errors[0]
-                throw new Error(errorMessages)
+
+                const errorMessages = action.payload?.errors
+                throw new Error(errorMessages[0])
             }else {
                 throw new Error ('somethinhg wrong')
             }

@@ -5,6 +5,7 @@ import {slice}from './app-reducer'
 const appActions={
     ...appAsyncActions, ...slice.actions
 }
+const appReducer=slice.reducer
 export {
-    appSelectors,appActions
+    appSelectors,appActions,appReducer
 }

@@ -6,8 +6,9 @@ import {ActionType as tasksActions} from './tasks-reducer'
 const todolistsActions={
     ...asyncTodolistsActions, ...slice.actions
 }
+const tasksReducer=slice.reducer
 export {
     todolistsSelectors,
     todolistsActions,
-    tasksActions
+    tasksActions,tasksReducer
 }

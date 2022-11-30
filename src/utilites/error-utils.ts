@@ -18,9 +18,11 @@ export const handleServerNetworkAppError=(error: { message:string|null }, dispat
 
 export const handleAsyncServerAppError=<D>(data:ResponseType<D>,thunkAPI:any,showError=true)=>{
     if(showError){
+
         thunkAPI.dispatch({error:data.messages.length?data.messages[0]:"Some error occured"})
     }
     thunkAPI.dispatch(SetAppStatus({status:'failed'}))
+
     return thunkAPI.rejectWithValue({errors: data.messages, fieldsErrors: data.fieldsErrors})
     }
 

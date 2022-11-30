@@ -48,7 +48,7 @@ const initialState = {
 export const ActionsType={
 
     loginTC,logoutTC }
-const slice = createSlice({
+export const slice = createSlice({
     name: 'login',
     initialState: initialState,
     reducers: {
