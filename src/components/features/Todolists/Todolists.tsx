@@ -7,8 +7,8 @@ import {Todolist} from "./Todolist/Todolist";
 import {Container} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import {Navigate} from "react-router-dom";
-import {tasksActions, todolistsActions, todolistsSelectors} from "../Todolists";
-import {loginActions, loginSelectors} from "../../Login";
+import {todolistsActions, todolistsSelectors} from "../Todolists";
+import {loginSelectors} from "../../Login";
 
 type TodolistsListPropsType = {
     demo?: boolean
@@ -32,7 +32,7 @@ const dispatch=useAppDispatch()
 
 
     const addTodolistCallback = useCallback(async(title: string) => {
-        const thunk=todolistsActions.addTodolist({title})
+        const thunk=todolistsActions.addTodolist(title)
         const action = await dispatch(thunk);
         if (todolistsActions.addTodolist.rejected.match(action)) {
 
@@ -50,7 +50,7 @@ const dispatch=useAppDispatch()
     return (
         <div className="App">
             <Container fixed>
-                <Grid container style={{padding: '20px'}}><AddItemForm addItem={addTodolistCallback}/></Grid>
+                <Grid container style={{padding: '20px', position:'relative'}}><AddItemForm  addItem={addTodolistCallback}/></Grid>
 
                 <Grid container spacing={3} style={{flexWrap:'nowrap', overflowX:'scroll'}} >
                     {todolists.map((todolist) => {

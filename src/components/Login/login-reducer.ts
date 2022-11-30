@@ -2,6 +2,7 @@ import {SetAppStatus} from "../App/app-reducer";
 import {authAPI, DataLoginPropsType, FieldsErrorType} from "../../api/todolists-api";
 import {handleServerAppError, handleServerNetworkAppError} from "../../utilites/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {ThunkError} from "../../state/store";
 
 // type InitialStateType = {
 //     isLoginOn: boolean
@@ -9,7 +10,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 const initialState = {
     isLoginOn: false,
 }
- const loginTC = createAsyncThunk<{ isLoginOn: boolean }, DataLoginPropsType, { rejectValue: { errors: Array<string>, fieldsErrors?: FieldsErrorType[] } }>('auth/login', async (param: DataLoginPropsType, thunkAPI) => {
+ const loginTC = createAsyncThunk<{ isLoginOn: boolean }, DataLoginPropsType, ThunkError>('auth/login', async (param: DataLoginPropsType, thunkAPI) => {
     thunkAPI.dispatch(SetAppStatus({status: 'loading'}))
     try {
 

@@ -74,7 +74,7 @@ test('new array should be added when new todolist is added', () => {
 
 
     const todolist = {id: 'todolistId3', title: 'how', order:0, addedDate:'',filter: 'all', entityStatus: 'idle'};
-    const endState = tasksReducer(startState, todolistsActions.addTodolist.fulfilled({todolist},'required',{title:'how'}))
+    const endState = tasksReducer(startState, todolistsActions.addTodolist.fulfilled({todolist},'required','how'))
 
 
     const keys = Object.keys(endState)

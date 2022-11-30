@@ -14,3 +14,21 @@ export const handleServerNetworkAppError=(error: { message:string|null }, dispat
     dispatch(SetAppError({error:error.message}?{error:error.message}:{error:'Some errror occupied' }))
     dispatch(SetAppStatus({status:'failed'}))
 }
+
+
+export const handleAsyncServerAppError=<D>(data:ResponseType<D>,thunkAPI:any,showError=true)=>{
+    if(showError){
+        thunkAPI.dispatch({error:data.messages.length?data.messages[0]:"Some error occured"})
+    }
+    thunkAPI.dispatch(SetAppStatus({status:'failed'}))
+    return thunkAPI.rejectWithValue({errors: data.messages, fieldsErrors: data.fieldsErrors})
+    }
+
+export const handleAsyncServerNetworkAppError=(error: { message:string|null }, thunkAPI:any,showError=true)=>{
+    if(showError){
+        thunkAPI.dispatch(SetAppError({error:error.message}?{error:error.message}:{error:'Some errror occupied' }))
+    }
+
+    thunkAPI.dispatch(SetAppStatus({status:'failed'}))
+    return thunkAPI.rejectWithValue({errors: [error.message], fieldsErrors: undefined})
+}

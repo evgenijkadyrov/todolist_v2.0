@@ -33,7 +33,7 @@ test('correct todolist should be add', () => {
     let newTitle = 'new todolist'
 
     const todolist = {id: '1', title:newTitle ,  order:0, addedDate:'',filter: 'all', entityStatus: 'idle'};
-    const endState = todolistsReducer(startState, todolistsActions.addTodolist.fulfilled({todolist},'required',{title:newTitle}))
+    const endState = todolistsReducer(startState, todolistsActions.addTodolist.fulfilled({todolist},'required',newTitle))
     expect(endState.length).toBe(3)
     expect(endState[0].title).toBe(newTitle)
     expect(endState[0].filter).toBe('all')

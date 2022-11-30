@@ -19,21 +19,19 @@ const AddItemForm = React.memo((props: AddItemFormType) => {
 
     }
 
-    const addItemHandler = async() => {
+    const addItemHandler = async () => {
         if (title.trim() !== '') {
 
-           try{
-               await props.addItem(title)
-            setTitle('')
-        }
+            try {
+                await props.addItem(title)
+                setTitle('')
+            } catch (e: any) {
 
-        catch(e:any){
-
-const error=e.message
-            setError(error)
-           }
-        }
-        else {
+                const error = e.message
+                if(error!=='Network Error')
+                setError(error)
+            }
+        } else {
             setError('Title required')
         }
     };
@@ -46,12 +44,12 @@ const error=e.message
             addItemHandler()
         }
     }
-    const onBlurHandler=()=>{
+    const onBlurHandler = () => {
         setError(null)
     }
     return (
 
-        <div style={{position:'relative'}} >
+        <div style={{position: 'relative'}}>
             <TextField
                 autoFocus
                 onBlur={onBlurHandler}
@@ -64,9 +62,9 @@ const error=e.message
                 helperText={error}
                 disabled={props.disabled}/>
 
-            <IconButton style={{position:'absolute', right:'5px'}}
+            <IconButton
                 color='primary' onClick={addItemHandler} disabled={props.disabled}>
-                <AddBox >+</AddBox>
+                <AddBox>+</AddBox>
             </IconButton>
 
         </div>)
