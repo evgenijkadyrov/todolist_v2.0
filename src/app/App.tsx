@@ -27,7 +27,7 @@ const App = ({demo = false}: PropsType) => {
 
 
     useEffect(() => {
-        if (!demo) {
+        if (!isInitialized) {
             inialized()
         }
 

@@ -23,6 +23,7 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
         if (props.demo || !isLoginOn) {
             return
         }
+        if(!todolists.length)
         fetchTodolists()
 
     }, [])

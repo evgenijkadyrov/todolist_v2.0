@@ -17,8 +17,9 @@ export const Todolist = React.memo((props: PropsType) => {
     const {fetchTasks,} = useActions(tasksActions)
     const {removeTodolist, changeTodolistFilter, changeTodolistTitle,} = useActions(todolistsActions)
     const dispatch = useAppDispatch()
+
     useEffect(() => {
-        if (!props.demo)
+        if (!props.demo&& !props.tasks.length)
             fetchTasks(props.todolist.id)
     }, [])
 
