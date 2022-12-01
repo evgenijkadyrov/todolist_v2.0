@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 
 const settings = {
     withCredentials: true,
@@ -16,12 +16,13 @@ export type DataLoginPropsType={
     rememberMe:boolean
     captcha?:string
 }
+export type AuthMeType={id:string,login:string, password:string}
 export const authAPI={
-    loginMe(data:DataLoginPropsType){
+    loginMe(data:DataLoginPropsType):Promise<AxiosResponse<ResponseType<{}>>> {
         return instance.post<ResponseType<{}>>('auth/login', data )
     },
-    me(){
-        return instance.get<ResponseType<{id:string,login:string, password:string}>>('auth/me')
+    me():Promise<AxiosResponse<ResponseType<AuthMeType>>>{
+        return instance.get<ResponseType<AuthMeType>>('auth/me')
     },
     logout(){
         return instance.delete<ResponseType<{}>>('auth/login')
@@ -42,18 +43,18 @@ export const todolistsAPI = {
     updateTodolistTitle(id: string, title: string) {
         return instance.put<ResponseType<{}>>(`todo-lists/${id}`, {title: title})
     },
-    getTasks(todolistId:string){
+    getTasks(todolistId:string):Promise<AxiosResponse<GetTasksType>>{
         return instance.get<GetTasksType>(`todo-lists/${todolistId}/tasks`)
     },
-    deleteTask(todolistId:string, taskId:string){
+    deleteTask(todolistId:string, taskId:string):Promise<AxiosResponse<ResponseType<{  }>>>{
         return instance.delete<ResponseType<{}>>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
-    createTask(todolistId:string, title:string){
+    createTask(todolistId:string, title:string):Promise<AxiosResponse<ResponseType<{ item:TaskResponseType }>>>{
         return instance.post<ResponseType<{ item:TaskResponseType }>>(`todo-lists/${todolistId}/tasks`, {title})
     },
-    updateTask(todolistId: string, taskId: string, payload:UpdateTaskType){
+    updateTask(todolistId: string, taskId: string, payload:UpdateTaskType):Promise<AxiosResponse<ResponseType<{ item:TaskResponseType }>>>{
 
-        return instance.put(`todo-lists/${todolistId}/tasks/${taskId}`,payload)
+        return instance.put<ResponseType<{ item:TaskResponseType }>>(`todo-lists/${todolistId}/tasks/${taskId}`,payload)
     },
 
 }
@@ -96,7 +97,7 @@ export type TaskResponseType={
     addedDate:string
 
 }
-type GetTasksType={
+export type GetTasksType={
     items:Array<TaskResponseType>
     totalCount:number
     error:string

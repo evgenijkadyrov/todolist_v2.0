@@ -8,10 +8,10 @@ import {TaskResponseType, TaskStatuses} from "../../../../api/todolists-api";
 import {FilterType, TodolistDomainType} from "../../../../state/todolist-reducer";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../../../state/store";
-import {fetchTasksTC} from "../../../../state/tasks-reducer";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {Button} from "@mui/material";
+import {fetchTasks} from "../../../../state/tasks-sagas";
 
 type PropsType = {
     demo?: boolean
@@ -32,7 +32,7 @@ export const Todolist = React.memo((props: PropsType) => {
 
     useEffect(() => {
         if (!props.demo)
-            dispatch(fetchTasksTC(props.todolist.id))
+            dispatch(fetchTasks(props.todolist.id))
     }, [])
 
     const onAllClickHandler = useCallback(() => {

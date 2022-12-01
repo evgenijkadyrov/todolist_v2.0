@@ -11,7 +11,6 @@ import {
 } from "../../../state/todolist-reducer";
 import React, {useCallback, useEffect} from "react";
 import {TaskStatuses} from "../../../api/todolists-api";
-import {AddTaskTC, RemoveTaskTC, UpdateTaskTC} from "../../../state/tasks-reducer";
 import AddItemForm from "../../AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {TasksStateType} from "../../App/App";
@@ -19,6 +18,7 @@ import {Container} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import {Navigate} from "react-router-dom";
+import {addTaskA, removeTaskA, UpdateTaskA} from "../../../state/tasks-sagas";
 
 type TodolistsListPropsType = {
     demo?: boolean
@@ -45,20 +45,20 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
     }, []);
 
     const changeTaskStatus = useCallback((todolistId: string, taskId: string, status: TaskStatuses) => {
-        dispatch(UpdateTaskTC(todolistId, taskId, {status}))
+        dispatch(UpdateTaskA(todolistId, taskId, {status}))
     }, []);
 
     const changeTaskTitle = useCallback((taskId: string, newTitle: string, todolistId: string) => {
-        dispatch(UpdateTaskTC(todolistId, taskId, {title: newTitle}))
+        dispatch(UpdateTaskA(todolistId, taskId, {title: newTitle}))
     }, []);
 
     const removeTask = useCallback((taskId: string, todolistId: string) => {
-        dispatch(RemoveTaskTC(todolistId, taskId))
+        dispatch(removeTaskA(todolistId, taskId))
 
     }, []);
 
     const addTask = useCallback((title: string, todolistId: string) => {
-        dispatch(AddTaskTC(todolistId, title))
+        dispatch(addTaskA(todolistId, title))
     }, []);
 
     const removeTodolist = useCallback((todolistId: string) => {
