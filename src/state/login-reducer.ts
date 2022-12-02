@@ -1,9 +1,3 @@
-import {SetAppStatus} from "./app-reducer";
-import {authAPI, DataLoginPropsType} from "../api/todolists-api";
-import {AppThunk} from "./store";
-import {handleServerAppError, handleServerNetworkAppError} from "../utilites/error-utils";
-
-
 type InitialStateType = {
     isLoginOn: boolean
 
@@ -28,34 +22,50 @@ export const setIsLoginOn = (value: boolean) => ({
 } as const)
 
 //thunks
-export const loginTC = (data: DataLoginPropsType): AppThunk => {
-
-    return (dispatch) => {
-
-        dispatch(SetAppStatus('loading'))
-        authAPI.loginMe(data)
-
-            .then(res => {
-
-                if (res.data.resultCode === 0) {
-                    dispatch(setIsLoginOn(true))
-                    dispatch(SetAppStatus('success'))
-                } else {
-                    handleServerAppError(res.data, dispatch)
-                }
-
-            })
-            .catch((error) => {
-                handleServerNetworkAppError(error, dispatch)
-
-            })
-    }
-}
-
+// export const loginTC = (data: DataLoginPropsType): AppThunk => {
+//
+//     return (dispatch) => {
+//
+//         dispatch(SetAppStatus('loading'))
+//         authAPI.loginMe(data)
+//
+//             .then(res => {
+//
+//                 if (res.data.resultCode === 0) {
+//                     dispatch(setIsLoginOn(true))
+//                     dispatch(SetAppStatus('success'))
+//                 } else {
+//                     handleServerAppError(res.data, dispatch)
+//                 }
+//
+//             })
+//             .catch((error) => {
+//                 handleServerNetworkAppError(error, dispatch)
+//
+//             })
+//     }
+// export const logoutTC = (): AppThunk => {
+//     return (dispatch) => {
+//         authAPI.logout()
+//             .then(res => {
+//                 if (res.data.resultCode === 0) {
+//
+//                     dispatch(setIsLoginOn(false))
+//
+//                 } else {
+//                     handleServerAppError(res.data, dispatch)
+//                 }
+//                 dispatch(SetAppIsInitialized(true))
+//             })
+//             .catch(error => {
+//                 handleServerNetworkAppError(error, dispatch)
+//             })
+//
+//     }
+// }
 
 //types
 
 export type ActionsType = IsLoginOnType
 
 export type IsLoginOnType = ReturnType<typeof setIsLoginOn>
-

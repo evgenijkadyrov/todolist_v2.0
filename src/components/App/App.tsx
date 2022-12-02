@@ -12,11 +12,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ErrorSnackBar from "../SnackBar";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootReducer} from "../../state/store";
-import { initializeApp, logoutTC, RequestStatusType} from "../../state/app-reducer";
+import { RequestStatusType} from "../../state/app-reducer";
 import LinearProgress from "@mui/material/LinearProgress";
 import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
 import {Login} from "../Login/Login";
 import CircularProgress from "@mui/material/CircularProgress";
+import {initializeApp} from "../../state/app-sagas";
+import {LogoutA} from "../../state/login-sagas";
 
 
 export type TasksStateType = {
@@ -34,7 +36,7 @@ function App() {
         dispatch(initializeApp())
     },[])
     const logoutHandler=useCallback(()=>{
-        dispatch(logoutTC())
+        dispatch(LogoutA())
     },[])
     if(!isInitialized){
         return <div style={{position:'fixed',width:'100%', top:'30%', textAlign:'center' }}><CircularProgress/></div>

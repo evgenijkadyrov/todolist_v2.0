@@ -1,12 +1,8 @@
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, AppRootReducer} from "../../../state/store";
 import {
-    AddTodolistTC,
     changeTodolistFilterAC,
-    ChangeTodolistTitleTC,
-    fetchTodolistsTC,
-    FilterType,
-    RemoveTodolist,
+        FilterType,
     TodolistDomainType
 } from "../../../state/todolist-reducer";
 import React, {useCallback, useEffect} from "react";
@@ -19,6 +15,13 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import {Navigate} from "react-router-dom";
 import {addTaskA, removeTaskA, UpdateTaskA} from "../../../state/tasks-sagas";
+import {
+    AddTodolistA,
+    ChangeTodolistTitleA,
+    fetchTodolistsA,
+    RemoveTodolistA,
+    RemoveTodolistWorkerSaga
+} from "../../../state/todolists-sagas";
 
 type TodolistsListPropsType = {
     demo?: boolean
@@ -34,7 +37,7 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
         if (props.demo||!isLoginOn){
             return
         }
-            dispatch(fetchTodolistsTC())
+            dispatch(fetchTodolistsA())
 
     }, [])
 
@@ -62,16 +65,16 @@ export const TodolistsList = (props: TodolistsListPropsType) => {
     }, []);
 
     const removeTodolist = useCallback((todolistId: string) => {
-        dispatch(RemoveTodolist(todolistId))
+        dispatch(RemoveTodolistA(todolistId))
     }, []);
 
     const changeTodolistTitle = useCallback((todolistId: string, newTitle: string,) => {
-        dispatch(ChangeTodolistTitleTC(todolistId, newTitle))
+        dispatch(ChangeTodolistTitleA(todolistId, newTitle))
 
     }, [])
 
     const addTodolist = useCallback((title: string) => {
-        dispatch(AddTodolistTC(title))
+        dispatch(AddTodolistA(title))
 
     }, []);
     if(!isLoginOn){

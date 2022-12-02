@@ -18,29 +18,30 @@ export type DataLoginPropsType={
 }
 export type AuthMeType={id:string,login:string, password:string}
 export const authAPI={
-    loginMe(data:DataLoginPropsType):Promise<AxiosResponse<ResponseType<{}>>> {
-        return instance.post<ResponseType<{}>>('auth/login', data )
+    loginMe(data:DataLoginPropsType):Promise<AxiosResponse<ResponseType<{userId:number}>>> {
+        return instance.post<ResponseType<{userId:number}>>('auth/login', data )
     },
     me():Promise<AxiosResponse<ResponseType<AuthMeType>>>{
         return instance.get<ResponseType<AuthMeType>>('auth/me')
     },
-    logout(){
+    logout():Promise<AxiosResponse<ResponseType<{}>>> {
         return instance.delete<ResponseType<{}>>('auth/login')
     }
 }
 
 export const todolistsAPI = {
     getTodolists() {
+
         return instance.get<Array<TodolistType>>('todo-lists')
     },
-    createTodolist(title: string) {
+    createTodolist(title: string):Promise<AxiosResponse<ResponseType<{ item: TodolistType }>>> {
         return instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title: title})
 
     },
-    deleteTodolist(id: string) {
+    deleteTodolist(id: string):Promise<AxiosResponse<ResponseType<{}>>> {
         return instance.delete<ResponseType<{}>>(`todo-lists/${id}`)
     },
-    updateTodolistTitle(id: string, title: string) {
+    updateTodolistTitle(id: string, title: string):Promise<AxiosResponse<ResponseType<{}>>> {
         return instance.put<ResponseType<{}>>(`todo-lists/${id}`, {title: title})
     },
     getTasks(todolistId:string):Promise<AxiosResponse<GetTasksType>>{

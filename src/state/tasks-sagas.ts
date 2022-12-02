@@ -1,6 +1,6 @@
 import {GetTasksType, ResponseType, TaskResponseType, todolistsAPI, UpdateTaskType} from "../api/todolists-api";
 import {RootState} from "./store";
-import {call, put, select, takeEvery} from "redux-saga/effects";
+import {all, call, put, select, takeEvery} from "redux-saga/effects";
 import {AxiosResponse} from "axios";
 import {handleServerAppError, handleServerNetworkAppError} from "../utilites/error-utils";
 import {SetAppStatus} from "./app-reducer";
@@ -8,7 +8,7 @@ import {addTaskAC, removeTaskAC, setTasksAC, UpdateDomainTaskType, updateTaskAC}
 
 
 //sagas
-function* fetchTasksWorkerSaga(action: fetchTasksSagaAction) {
+export function* fetchTasksWorkerSaga(action: fetchTasksSagaAction) {
     yield put(SetAppStatus('loading'))
     try {
         const res: AxiosResponse<GetTasksType> = yield call(todolistsAPI.getTasks, action.todolistId)
@@ -20,7 +20,7 @@ function* fetchTasksWorkerSaga(action: fetchTasksSagaAction) {
     }
 }
 
-function* RemoveTaskWorkerSaga(action: removeTaskSagaAction) {
+export function* RemoveTaskWorkerSaga(action: removeTaskSagaAction) {
     yield put(SetAppStatus('loading'))
     try {
         const res: AxiosResponse<ResponseType<{}>> = yield call(todolistsAPI.deleteTask, action.todolistId, action.taskId)
@@ -32,7 +32,7 @@ function* RemoveTaskWorkerSaga(action: removeTaskSagaAction) {
     }
 }
 
-function* AddTaskWorkerSaga(action: AddTaskSagaAction) {
+export function* AddTaskWorkerSaga(action: AddTaskSagaAction) {
     yield put(SetAppStatus('loading'))
     try {
         const res: AxiosResponse<ResponseType<{ item: TaskResponseType }>> = yield call(todolistsAPI.createTask, action.todolistId, action.title)
@@ -47,7 +47,7 @@ function* AddTaskWorkerSaga(action: AddTaskSagaAction) {
     }
 }
 
-function* UpdateTaskWorkerSaga(action: UpdateTaskSagaAction) {
+export function* UpdateTaskWorkerSaga(action: UpdateTaskSagaAction) {
 
     const state: RootState = yield select()
     const task: TaskResponseType = yield state.tasks[action.todolistId].find(el => el.id === action.taskId)
@@ -95,13 +95,15 @@ export const fetchTasks = (todolistId: string) => ({type: 'tasks/FETCH-TASKS', t
 export const addTaskA = (todolistId: string, title: string) => ({type: 'tasks/ADD-TASK', todolistId, title} as const)
 
 
-export function* TasksWatcherSaga() {
-    yield  takeEvery('tasks/REMOVE-TASK',RemoveTaskWorkerSaga)
-    yield   takeEvery('tasks/ADD-TASK',AddTaskWorkerSaga)
-    yield   takeEvery('tasks/UPDATE-TASK',UpdateTaskWorkerSaga)
-    yield   takeEvery('tasks/FETCH-TASKS',fetchTasksWorkerSaga)
-
-}
+// export function* TasksWatcherSaga() {
+//     yield all([
+//         takeEvery('tasks/REMOVE-TASK',RemoveTaskWorkerSaga),
+//         takeEvery('tasks/ADD-TASK',AddTaskWorkerSaga),
+//         takeEvery('tasks/UPDATE-TASK',UpdateTaskWorkerSaga),
+//         takeEvery('tasks/FETCH-TASKS',fetchTasksWorkerSaga)
+//     ])
+//
+// }
 
 //types
 
